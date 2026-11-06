@@ -9,7 +9,7 @@
   "use strict";
 
   // prettier-ignore
-  const EMBEDDED_DATA = /* DATA:BEGIN */{"meta": {"note": "Every value in this file is fictional and illustrative. None of it is a real measurement or price.", "priceUnit": "USD thousands per metric ton, delivered to pad", "region": "Austral Reach (fictional)"}, "sites": [{"id": "nightglass", "name": "Nightglass Crater", "type": "water", "x": 41.7, "y": 47.5, "blurb": "Permanently shadowed floor in a deep crater. The richest ice signal in the region, with good access from the eastern ridge.", "quantity": "~120 kt water ice", "confidence": 62, "costPerTon": 380, "basis": "Orbital neutron and radar data, one surface probe", "breakdown": {"extract": 38, "refine": 27, "store": 15, "deliver": 20}}, {"id": "coldwell", "name": "Coldwell Hollow", "type": "water", "x": 64.2, "y": 34.2, "blurb": "Smaller, colder crater. Promising orbital signal, but no surface confirmation yet.", "quantity": "~45 kt water ice", "confidence": 34, "costPerTon": 520, "basis": "Orbital data only", "breakdown": {"extract": 44, "refine": 24, "store": 14, "deliver": 18}}, {"id": "lantern", "name": "Lantern Ridge", "type": "oxygen", "x": 58.3, "y": 63.6, "blurb": "Near-continuous sunlight along the crest makes it the cheapest place in the region to run power-hungry oxygen extraction.", "quantity": "~300 kt extractable oxygen", "confidence": 81, "costPerTon": 210, "basis": "Orbital spectra, two surface samples", "breakdown": {"extract": 30, "refine": 40, "store": 12, "deliver": 18}}, {"id": "basalt", "name": "Basalt Gate", "type": "oxygen", "x": 27.5, "y": 26.0, "blurb": "Dark basalt plain with oxide-rich regolith. Longer haul to the nearest pad.", "quantity": "~140 kt extractable oxygen", "confidence": 58, "costPerTon": 260, "basis": "Orbital spectra, one surface sample", "breakdown": {"extract": 28, "refine": 36, "store": 11, "deliver": 25}}, {"id": "cinder", "name": "Cinder Plain", "type": "metals", "x": 23.3, "y": 69.0, "blurb": "Ilmenite-bearing basalt. A candidate source of iron and titanium feedstock, with oxygen as a by-product.", "quantity": "~60 kt recoverable iron", "confidence": 55, "costPerTon": 640, "basis": "Orbital spectra, model-derived grade", "breakdown": {"extract": 34, "refine": 46, "store": 6, "deliver": 14}}, {"id": "pale", "name": "Pale Shelf", "type": "helium3", "x": 78.3, "y": 73.5, "blurb": "Highland shelf with a weak helium-3 signal. Concentrations are low and poorly constrained; too uncertain for a Ledger cost.", "quantity": "Trace; not yet bounded", "confidence": 18, "costPerTon": null, "basis": "Model estimate, no direct measurement", "breakdown": null}], "index": {"periods": ["Y1 Q1", "Y1 Q2", "Y1 Q3", "Y1 Q4", "Y2 Q1", "Y2 Q2", "Y2 Q3", "Y2 Q4"], "series": [{"code": "LOX-A", "name": "Liquid oxygen, Grade A", "values": [520, 505, 498, 470, 455, 448, 430, 439]}, {"code": "H2O-W2", "name": "Water feedstock, Grade W2", "values": [610, 600, 585, 590, 560, 548, 541, 529]}, {"code": "O2-L", "name": "Breathing oxygen, Grade L", "values": [720, 715, 700, 690, 688, 670, 662, 668]}, {"code": "FE-M1", "name": "Iron feedstock, Grade M1", "values": [980, 960, 955, 940, 925, 930, 910, 902]}]}, "grades": [{"code": "LOX-A", "product": "Liquid oxygen", "spec": "Flight-grade purity, low moisture", "buyer": "Lander operators"}, {"code": "LOX-B", "product": "Liquid oxygen", "spec": "Industrial purity, non-flight", "buyer": "Surface power, testing"}, {"code": "O2-L", "product": "Gaseous oxygen", "spec": "Breathing-grade, life-support certified", "buyer": "Habitat operators"}, {"code": "H2O-W1", "product": "Water", "spec": "Filtered, potable after treatment", "buyer": "Habitats, research stations"}, {"code": "H2O-W2", "product": "Water", "spec": "Raw feedstock for electrolysis", "buyer": "Refiners"}, {"code": "FE-M1", "product": "Iron feedstock", "spec": "Reduced metal, size-sorted", "buyer": "Fabrication and construction"}]}/* DATA:END */;
+  const EMBEDDED_DATA = /* DATA:BEGIN */{"meta": {"note": "Every value in this file is made up. None of it is a real measurement or price.", "priceUnit": "thousands of US dollars per ton, delivered", "region": "Austral Reach (fictional)"}, "sites": [{"id": "nightglass", "name": "Nightglass Crater", "type": "water", "x": 41.7, "y": 47.5, "blurb": "A deep crater whose floor never gets sunlight. It has the strongest ice signal in the area and is easy to reach from the ridge to the east.", "quantity": "About 120,000 tons of ice", "confidence": 62, "costPerTon": 380, "basis": "Data from orbit and one surface probe", "breakdown": {"extract": 38, "refine": 27, "store": 15, "deliver": 20}}, {"id": "coldwell", "name": "Coldwell Hollow", "type": "water", "x": 64.2, "y": 34.2, "blurb": "A smaller, colder crater. It looks promising from orbit, but nobody has checked on the ground yet.", "quantity": "About 45,000 tons of ice", "confidence": 34, "costPerTon": 520, "basis": "Data from orbit only", "breakdown": {"extract": 44, "refine": 24, "store": 14, "deliver": 18}}, {"id": "lantern", "name": "Lantern Ridge", "type": "oxygen", "x": 58.3, "y": 63.6, "blurb": "The top of this ridge gets sunlight almost all the time, so it's the cheapest place nearby to run power-hungry oxygen plants.", "quantity": "About 300,000 tons of oxygen", "confidence": 81, "costPerTon": 210, "basis": "Data from orbit and two ground samples", "breakdown": {"extract": 30, "refine": 40, "store": 12, "deliver": 18}}, {"id": "basalt", "name": "Basalt Gate", "type": "oxygen", "x": 27.5, "y": 26.0, "blurb": "A dark, flat plain with oxygen-rich soil. It's a longer drive to the nearest landing pad.", "quantity": "About 140,000 tons of oxygen", "confidence": 58, "costPerTon": 260, "basis": "Data from orbit and one ground sample", "breakdown": {"extract": 28, "refine": 36, "store": 11, "deliver": 25}}, {"id": "cinder", "name": "Cinder Plain", "type": "metals", "x": 23.3, "y": 69.0, "blurb": "Dark rock with iron and titanium in it. A possible source of metal, with oxygen as a bonus.", "quantity": "About 60,000 tons of iron", "confidence": 55, "costPerTon": 640, "basis": "Data from orbit, with the grade estimated", "breakdown": {"extract": 34, "refine": 46, "store": 6, "deliver": 14}}, {"id": "pale", "name": "Pale Shelf", "type": "helium3", "x": 78.3, "y": 73.5, "blurb": "A raised shelf with a weak helium-3 signal. There's too little data to put a price on it yet.", "quantity": "Only traces, amount unknown", "confidence": 18, "costPerTon": null, "basis": "A computer model, no measurements", "breakdown": null}], "index": {"periods": ["Y1 Q1", "Y1 Q2", "Y1 Q3", "Y1 Q4", "Y2 Q1", "Y2 Q2", "Y2 Q3", "Y2 Q4"], "series": [{"code": "LOX-A", "name": "Liquid oxygen, Grade A", "values": [520, 505, 498, 470, 455, 448, 430, 439]}, {"code": "H2O-W2", "name": "Water feedstock, Grade W2", "values": [610, 600, 585, 590, 560, 548, 541, 529]}, {"code": "O2-L", "name": "Breathing oxygen, Grade L", "values": [720, 715, 700, 690, 688, 670, 662, 668]}, {"code": "FE-M1", "name": "Iron feedstock, Grade M1", "values": [980, 960, 955, 940, 925, 930, 910, 902]}]}, "grades": [{"code": "LOX-A", "product": "Liquid oxygen", "spec": "Pure enough for rocket engines", "buyer": "Lander companies"}, {"code": "LOX-B", "product": "Liquid oxygen", "spec": "Good enough for power and testing", "buyer": "Power and testing"}, {"code": "O2-L", "product": "Gaseous oxygen", "spec": "Safe to breathe", "buyer": "Moon bases"}, {"code": "H2O-W1", "product": "Water", "spec": "Drinkable after treatment", "buyer": "Bases and research stations"}, {"code": "H2O-W2", "product": "Water", "spec": "Raw, for splitting into fuel", "buyer": "Fuel makers"}, {"code": "FE-M1", "product": "Iron feedstock", "spec": "Iron, sorted by size", "buyer": "Building and manufacturing"}]}/* DATA:END */;
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -26,6 +26,7 @@
   };
 
   const TYPE_LABELS = { water: "Water ice", oxygen: "Oxygen", metals: "Metals", helium3: "Helium-3" };
+  const STEP_LABELS = { extract: "Mining", refine: "Processing", store: "Storage", deliver: "Delivery" };
   const fmtPrice = (v) => "$" + v.toLocaleString("en-US") + "k";
   const pctChange = (values) => {
     const a = values[values.length - 2], b = values[values.length - 1];
@@ -64,54 +65,6 @@
     }, { rootMargin: "-45% 0px -50% 0px" });
     navLinks.forEach((a) => { const s = $(a.getAttribute("href")); if (s) spy.observe(s); });
   }
-
-  // Reveal on scroll
-  const revealables = $$(".reveal");
-  if (reduceMotion || !("IntersectionObserver" in window)) {
-    revealables.forEach((n) => n.classList.add("is-visible"));
-  } else {
-    $$(".problem-grid, .product-grid, .audience-grid, .flow, .principles, .timeline").forEach((group) => {
-      Array.from(group.children).forEach((child, i) => { child.style.transitionDelay = i * 70 + "ms"; });
-    });
-    const io = new IntersectionObserver((entries, obs) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) { entry.target.classList.add("is-visible"); obs.unobserve(entry.target); }
-      });
-    }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
-    revealables.forEach((n) => io.observe(n));
-  }
-
-  // Waitlist form (front-end only)
-  const form = $("#waitlist-form");
-  const success = $("#form-success");
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const rules = {
-    name: (v) => (v.trim() ? "" : "Please enter your name."),
-    email: (v) => (!v.trim() ? "Please enter your email." : emailPattern.test(v.trim()) ? "" : "That email doesn't look right."),
-  };
-  const validateField = (input) => {
-    const msg = rules[input.name](input.value);
-    $("#" + input.name + "-err").textContent = msg;
-    if (msg) input.setAttribute("aria-invalid", "true"); else input.removeAttribute("aria-invalid");
-    return !msg;
-  };
-  Object.keys(rules).forEach((name) => {
-    const input = form.elements[name];
-    input.addEventListener("blur", () => { if (input.value) validateField(input); });
-    input.addEventListener("input", () => { if (input.getAttribute("aria-invalid") === "true") validateField(input); });
-  });
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const invalid = Object.keys(rules).map((n) => form.elements[n]).filter((i) => !validateField(i));
-    if (invalid.length) { invalid[0].focus(); return; }
-    success.hidden = false;
-    success.focus();
-    form.reset();
-  });
-  $("#form-reset").addEventListener("click", () => {
-    success.hidden = true;
-    form.elements.name.focus();
-  });
 
   // Tabs (WAI-ARIA tabs pattern, automatic activation)
   const tabs = $$('[role="tab"]');
@@ -161,6 +114,9 @@
       renderChart(data);
       renderIndexTable(data);
       renderGradesTable(data);
+      // Let the 3D atlas (atlas3d.js) know the site buttons exist.
+      window.MARE_DATA = data;
+      document.dispatchEvent(new CustomEvent("mare:data", { detail: data }));
     })
     .catch((err) => console.error("[Mare] Could not load data", err));
 
@@ -173,7 +129,7 @@
       items.push({ code: s.code, price: fmtPrice(s.values[s.values.length - 1]) + "/t", chg: fmtChange(pct), up: pct >= 0 });
     });
     data.sites.filter((s) => s.costPerTon != null).forEach((s) => {
-      items.push({ code: s.name.split(" ")[0].toUpperCase() + " · " + TYPE_LABELS[s.type], price: "cost " + fmtPrice(s.costPerTon) + "/t", chg: "", up: true });
+      items.push({ code: s.name, price: TYPE_LABELS[s.type].toLowerCase() + " " + fmtPrice(s.costPerTon) + "/t", chg: "", up: true });
     });
 
     const build = (hidden) => items.map((it) => {
@@ -234,9 +190,9 @@
       $("#panel-stats").hidden = false;
       $("#panel-qty").textContent = s.quantity;
       const level = s.confidence >= 70 ? "High" : s.confidence >= 45 ? "Medium" : "Low";
-      $("#panel-conf").textContent = `${level} · ${s.confidence}%`;
+      $("#panel-conf").textContent = `${level} (${s.confidence}%)`;
       $("#panel-conf-fill").style.width = s.confidence + "%";
-      $("#panel-cost").textContent = s.costPerTon == null ? "Not yet priced" : fmtPrice(s.costPerTon) + " / t";
+      $("#panel-cost").textContent = s.costPerTon == null ? "No price yet" : "$" + (s.costPerTon * 1000).toLocaleString("en-US") + " per ton";
       $("#panel-basis").textContent = s.basis;
 
       const bd = $("#panel-breakdown");
@@ -250,7 +206,7 @@
           const seg = el("span", { class: "seg-" + k });
           seg.style.width = v + "%";
           bar.append(seg);
-          legend.append(el("li", {}, [el("i", { class: "seg-" + k, "aria-hidden": "true" }), `${k[0].toUpperCase() + k.slice(1)} ${v}%`]));
+          legend.append(el("li", {}, [el("i", { class: "seg-" + k, "aria-hidden": "true" }), `${STEP_LABELS[k] || k} ${v}%`]));
         });
       } else {
         bd.hidden = true;
@@ -280,10 +236,10 @@
     const yMin = Math.floor(Math.min(...all) / step) * step;
     const yMax = Math.ceil(Math.max(...all) / step) * step;
     const STYLES = [
-      { color: "var(--gray-1)", dash: "" },
-      { color: "var(--gray-2)", dash: "6 4" },
-      { color: "var(--gray-2)", dash: "2 4" },
-      { color: "var(--gray-3)", dash: "10 4 2 4" },
+      { color: "var(--chart-a)", dash: "" },
+      { color: "var(--chart-b)", dash: "6 4" },
+      { color: "var(--chart-b)", dash: "2 4" },
+      { color: "var(--chart-c)", dash: "10 4 2 4" },
     ];
     const svgEl = (tag, attrs) => {
       const n = document.createElementNS(NS, tag);
@@ -306,10 +262,10 @@
 
       svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H, role: "img", "aria-labelledby": "chart-title chart-desc" });
       const title = svgEl("title", { id: "chart-title" });
-      title.textContent = "Illustrative Ledger price index by grade";
+      title.textContent = "Example Ledger prices by grade";
       const desc = svgEl("desc", { id: "chart-desc" });
       desc.textContent = series.map((s) => `${s.code} from ${fmtPrice(s.values[0])} to ${fmtPrice(s.values[s.values.length - 1])}`).join("; ") +
-        `, over ${periods.length} fictional quarters. Full values are in the Index table tab.`;
+        `, over ${periods.length} made-up quarters. All the numbers are in the Index table tab.`;
       svg.append(title, desc);
 
       for (let v = yMin; v <= yMax; v += step) {
@@ -347,15 +303,15 @@
       lines.forEach((l) => {
         const on = l.code === activeCode;
         l.path.classList.toggle("is-active", on);
-        l.dot.style.fill = on ? "var(--accent)" : l.color;
-        l.label.style.fill = on ? "var(--accent)" : l.color;
+        l.dot.style.fill = on ? "var(--earth-lit)" : l.color;
+        l.label.style.fill = on ? "var(--earth-lit)" : l.color;
         if (on) svg.append(l.g); // bring to front
       });
       $$(".series-btn", picker).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.code === activeCode)));
     }
     const setActive = (code) => { activeCode = code; applyActive(); };
 
-    $("#chart-unit").textContent = "Unit: " + data.meta.priceUnit + ". Fictional quarters.";
+    $("#chart-unit").textContent = "Prices in " + data.meta.priceUnit + ". Made-up quarters.";
 
     // Series picker
     series.forEach((s, si) => {
@@ -389,7 +345,7 @@
   function renderIndexTable(data) {
     const { periods, series } = data.index;
     const table = $("#index-table");
-    const cap = el("caption", { class: "visually-hidden", text: "Illustrative Ledger index values in " + data.meta.priceUnit });
+    const cap = el("caption", { class: "visually-hidden", text: "Example Ledger prices, in " + data.meta.priceUnit });
     const head = el("tr", {}, [el("th", { scope: "col", text: "Grade" })]
       .concat(periods.map((p) => el("th", { scope: "col", class: "num-cell", text: p })))
       .concat(el("th", { scope: "col", class: "num-cell", text: "Q/Q" })));
@@ -402,7 +358,7 @@
   function renderGradesTable(data) {
     const latest = Object.fromEntries(data.index.series.map((s) => [s.code, s.values[s.values.length - 1]]));
     const table = $("#grades-table");
-    const cap = el("caption", { class: "visually-hidden", text: "Illustrative quality grades" });
+    const cap = el("caption", { class: "visually-hidden", text: "Example quality grades" });
     const head = el("tr", {}, ["Grade", "Product", "Specification", "Typical buyer"].map((h) => el("th", { scope: "col", text: h }))
       .concat(el("th", { scope: "col", class: "num-cell", text: "Index (latest)" })));
     const body = data.grades.map((g) => el("tr", {}, [

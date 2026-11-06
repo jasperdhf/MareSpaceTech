@@ -1,35 +1,202 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" aria-hidden="true">
 <defs>
-<radialGradient id="ground" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#1d232b"/><stop offset="1" stop-color="#11151a"/></radialGradient>
-<radialGradient id="psr" cx=".5" cy=".55" r=".55"><stop offset="0" stop-color="#14181c"/><stop offset=".7" stop-color="#090c10"/><stop offset="1" stop-color="#0b0e12"/></radialGradient>
-<pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0 V6" stroke="#2a323d" stroke-width="1"/></pattern>
+
+<linearGradient id="bowl" x1="0" y1="0" x2="1" y2="0">
+  <stop offset="0" stop-color="#000" stop-opacity=".62"/>
+  <stop offset=".55" stop-color="#000" stop-opacity=".12"/>
+  <stop offset="1" stop-color="#fff" stop-opacity=".28"/>
+</linearGradient>
+<linearGradient id="rim" x1="0" y1="0" x2="1" y2="0">
+  <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+  <stop offset=".5" stop-color="#fff" stop-opacity=".1"/>
+  <stop offset="1" stop-color="#000" stop-opacity=".55"/>
+</linearGradient>
+<filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+
+
+<filter id="reg" x="0" y="0" width="600" height="600" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="5" seed="3" stitchTiles="stitch" result="n"/>
+  <feDiffuseLighting in="n" surfaceScale="3.5" diffuseConstant="1" lighting-color="#fff" result="l">
+    <feDistantLight azimuth="185" elevation="16"/>
+  </feDiffuseLighting>
+  <feColorMatrix in="l" type="matrix" values="0.62 0 0 0 0.132  0.62 0 0 0 0.126  0.6013999999999999 0 0 0 0.12  0 0 0 0 1"/>
+</filter>
+<clipPath id="disc"><circle cx="300" cy="300" r="286"/></clipPath>
+<radialGradient id="limb" cx="50%" cy="50%" r="50%"><stop offset=".8" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".45"/></radialGradient>
+<linearGradient id="ridge" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#000" stop-opacity=".6"/></linearGradient><filter id="ridgeblur"><feGaussianBlur stdDeviation="1.6"/></filter>
 </defs>
-<rect width="600" height="600" fill="#0d1014"/>
-<circle cx="300" cy="300" r="292" fill="url(#ground)"/>
-<!-- maria / basalt patches -->
-<path d="M70 380 q30 -40 90 -30 q50 10 60 50 q5 50 -50 70 q-60 15 -95 -20 q-25 -30 -5 -70z" fill="#181d24" stroke="#262e38"/>
-<path d="M110 120 q40 -25 85 -5 q35 20 20 55 q-20 30 -70 25 q-45 -8 -45 -40 q0 -20 10 -35z" fill="#181d24" stroke="#262e38"/>
-<!-- highland shelf -->
-<path d="M420 400 q50 -20 95 15 q25 35 -5 70 q-40 30 -85 10 q-35 -20 -30 -55 q3 -25 25 -40z" fill="url(#hatch)" stroke="#33404e"/>
-<!-- ridge -->
-<path d="M270 400 q40 -30 80 -20 q40 10 70 -10" fill="none" stroke="#3d4856" stroke-width="10" stroke-linecap="round"/>
-<path d="M270 396 q40 -30 80 -20 q40 10 70 -10" fill="none" stroke="#f2a93b" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
-<!-- craters (permanently shadowed floors) -->
-<circle cx="250" cy="285" r="62" fill="url(#psr)" stroke="#3a4554" stroke-width="2"/>
-<circle cx="250" cy="285" r="62" fill="none" stroke="#8e969d" stroke-opacity=".18" stroke-width="10"/>
-<circle cx="385" cy="205" r="40" fill="url(#psr)" stroke="#3a4554" stroke-width="2"/>
-<circle cx="385" cy="205" r="40" fill="none" stroke="#8e969d" stroke-opacity=".12" stroke-width="8"/>
-<g fill="none" stroke="#2f3946" stroke-width="1.5">
-<circle cx="470" cy="300" r="18"/><circle cx="200" cy="470" r="14"/><circle cx="330" cy="500" r="22"/><circle cx="480" cy="140" r="12"/><circle cx="90" cy="270" r="16"/><circle cx="300" cy="90" r="20"/>
+<rect width="600" height="600" fill="#121a27"/>
+<g clip-path="url(#disc)">
+<rect width="600" height="600" filter="url(#reg)"/>
+<g fill="#2b2a27" opacity=".6" filter="url(#soft)"><ellipse cx="155" cy="150" rx="70" ry="48"/><ellipse cx="140" cy="420" rx="80" ry="58"/></g>
+<g fill="#fff" opacity=".22" filter="url(#soft)"><ellipse cx="470" cy="445" rx="62" ry="44"/></g>
+<g fill="none" stroke="url(#ridge)" stroke-linecap="round" opacity=".55" filter="url(#ridgeblur)"><path d="M266 400 q38 -26 78 -18 q40 8 72 -10" stroke-width="7"/><path d="M300 414 q30 -10 56 -4" stroke-width="4"/><path d="M372 380 q20 -8 40 -4" stroke-width="4"/></g>
+<circle cx="227.2" cy="374.3" r="2.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="465.9" cy="343.6" r="3.3" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="74.0" cy="370.3" r="4.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="307.0" cy="393.0" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="490.5" cy="201.2" r="2.7" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="241.2" cy="522.3" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="337.0" cy="443.7" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="381.2" cy="547.2" r="5.6" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="459.2" cy="357.1" r="7.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="480.1" cy="326.8" r="2.7" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="66.8" cy="174.3" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="380.8" cy="304.2" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="380.8" cy="308.9" r="2.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="459.2" cy="213.7" r="2.7" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="401.8" cy="492.4" r="3.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="491.1" cy="367.7" r="9.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.9"/>
+<circle cx="385.4" cy="416.4" r="3.3" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="394.1" cy="298.8" r="11.7" fill="url(#bowl)" stroke="url(#rim)" stroke-width="1.1"/>
+<circle cx="428.8" cy="259.0" r="4.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="150.8" cy="513.2" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="541.5" cy="338.9" r="5.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="67.2" cy="303.9" r="5.6" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="285.8" cy="118.1" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="472.7" cy="260.3" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="421.6" cy="524.7" r="3.7" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="562.6" cy="386.2" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="562.5" cy="208.3" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="368.6" cy="305.1" r="3.3" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="237.8" cy="380.7" r="10.3" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.9"/>
+<circle cx="353.4" cy="362.4" r="3.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="230.1" cy="65.9" r="2.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="335.4" cy="41.8" r="4.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="349.9" cy="335.9" r="2.7" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="324.9" cy="170.3" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="385.0" cy="469.1" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="211.4" cy="374.9" r="3.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="493.0" cy="232.5" r="2.6" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="567.4" cy="348.9" r="9.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="109.0" cy="245.4" r="7.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="360.2" cy="261.5" r="2.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="152.7" cy="260.1" r="3.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="283.7" cy="212.3" r="4.3" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="504.4" cy="370.6" r="3.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="272.1" cy="83.5" r="5.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="507.0" cy="347.6" r="7.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="222.4" cy="140.1" r="3.3" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="381.5" cy="502.6" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="453.1" cy="366.1" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="176.8" cy="511.8" r="5.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="506.2" cy="238.7" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="546.6" cy="278.7" r="10.8" fill="url(#bowl)" stroke="url(#rim)" stroke-width="1.0"/>
+<circle cx="221.7" cy="409.6" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="346.3" cy="421.7" r="5.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="131.8" cy="276.6" r="2.6" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="312.3" cy="440.5" r="3.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="360.1" cy="475.0" r="2.8" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="429.6" cy="349.2" r="5.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="197.9" cy="220.5" r="6.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="275.8" cy="451.5" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="542.3" cy="262.5" r="5.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="532.7" cy="191.7" r="7.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="382.3" cy="283.0" r="8.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="303.8" cy="517.5" r="2.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="153.8" cy="509.6" r="2.7" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="369.0" cy="463.3" r="2.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="398.8" cy="481.2" r="2.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="245.7" cy="79.4" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="287.0" cy="174.4" r="7.3" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="44.6" cy="347.7" r="2.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="400.6" cy="126.4" r="2.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="269.2" cy="153.8" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="326.1" cy="312.6" r="2.8" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="402.0" cy="327.6" r="8.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="210.3" cy="379.0" r="2.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="442.6" cy="145.1" r="3.3" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="452.8" cy="128.2" r="2.6" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="304.2" cy="157.0" r="8.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="79.8" cy="369.3" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="182.0" cy="511.4" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="416.4" cy="319.4" r="8.8" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="325.7" cy="420.7" r="7.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="510.3" cy="210.8" r="11.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="1.1"/>
+<circle cx="532.9" cy="393.8" r="2.7" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="83.5" cy="350.4" r="2.4" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="55.5" cy="210.3" r="10.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.9"/>
+<circle cx="329.5" cy="31.4" r="7.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="34.8" cy="247.4" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="167.8" cy="58.1" r="2.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="542.6" cy="389.9" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="404.7" cy="411.1" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="355.8" cy="287.4" r="2.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="439.3" cy="95.0" r="3.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="397.2" cy="437.5" r="8.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="408.3" cy="533.4" r="2.6" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="294.9" cy="518.5" r="2.8" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="318.1" cy="416.7" r="2.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="456.0" cy="233.9" r="3.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="181.9" cy="538.8" r="3.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="536.3" cy="344.0" r="2.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="337.3" cy="311.3" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="258.8" cy="140.2" r="6.3" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="230.9" cy="39.3" r="4.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="120.7" cy="212.3" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="155.3" cy="339.8" r="2.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="65.8" cy="251.3" r="5.4" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="324.1" cy="439.7" r="3.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="550.4" cy="408.5" r="2.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="414.5" cy="265.5" r="2.4" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="367.4" cy="86.9" r="3.6" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="483.2" cy="322.1" r="2.4" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="559.6" cy="206.5" r="2.3" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="411.0" cy="286.1" r="9.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.9"/>
+<circle cx="189.0" cy="241.5" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="244.9" cy="209.5" r="2.8" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="327.4" cy="112.7" r="3.9" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="233.8" cy="107.3" r="3.6" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="225.2" cy="74.4" r="10.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.9"/>
+<circle cx="561.4" cy="311.1" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="531.8" cy="271.2" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="40.0" cy="337.7" r="2.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="216.0" cy="46.8" r="2.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="291.3" cy="542.3" r="10.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.9"/>
+<circle cx="326.4" cy="231.4" r="3.3" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="59.2" cy="375.6" r="2.4" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="423.4" cy="333.4" r="2.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="454.9" cy="159.7" r="6.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="150.1" cy="317.2" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="288.7" cy="188.9" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="373.2" cy="253.1" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="339.8" cy="532.0" r="2.3" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="306.7" cy="533.4" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="538.0" cy="282.5" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="514.6" cy="328.9" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="83.1" cy="300.1" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="132.5" cy="507.4" r="5.6" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="211.6" cy="397.0" r="2.6" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="512.9" cy="132.9" r="2.5" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="291.2" cy="512.4" r="3.4" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="530.4" cy="396.0" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="434.8" cy="514.6" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="309.2" cy="408.7" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="251.4" cy="193.9" r="7.6" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="221.7" cy="101.9" r="4.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="121.9" cy="495.1" r="2.1" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="354.0" cy="43.7" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="47.4" cy="264.3" r="4.6" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="281.5" cy="408.9" r="9.4" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="434.8" cy="315.5" r="2.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="43.7" cy="331.2" r="2.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="524.4" cy="376.3" r="4.2" fill="url(#bowl)" stroke="url(#rim)" stroke-width="0.8"/>
+<circle cx="470.0" cy="300.0" r="18.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="1.6"/>
+<circle cx="200.0" cy="470.0" r="14.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="1.3"/>
+<circle cx="330.0" cy="500.0" r="22.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="2.0"/>
+<circle cx="480.0" cy="140.0" r="12.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="1.1"/>
+<circle cx="90.0" cy="270.0" r="16.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="1.4"/>
+<circle cx="300.0" cy="90.0" r="20.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="1.8"/>
+<circle cx="250.0" cy="285.0" r="62.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="3.2"/><circle cx="250.0" cy="285.0" r="53.3" fill="#050505" opacity=".92"/>
+<circle cx="385.0" cy="205.0" r="40.0" fill="url(#bowl)" stroke="url(#rim)" stroke-width="3.2"/><circle cx="385.0" cy="205.0" r="34.4" fill="#050505" opacity=".92"/>
+<circle cx="300" cy="300" r="286" fill="url(#limb)"/>
 </g>
-<!-- graticule -->
-<g fill="none" stroke="#dcd9d1" stroke-opacity=".14" stroke-dasharray="3 6">
-<circle cx="300" cy="300" r="95"/><circle cx="300" cy="300" r="190"/><circle cx="300" cy="300" r="285"/>
-<path d="M300 15 V585 M15 300 H585 M98 98 L502 502 M502 98 L98 502"/>
-</g>
-<path d="M294 300 h12 M300 294 v12" stroke="#dcd9d1" stroke-width="1.5"/>
-<g font-family="system-ui,sans-serif" font-size="11" fill="#7d8896">
-<text x="306" y="212">88°S</text><text x="306" y="117">86°S</text><text x="306" y="27">84°S</text>
-<text x="300" y="12" text-anchor="middle" font-weight="700" fill="#a3afbd">0°</text>
-</g>
+<g fill="none" stroke="#eceae4" stroke-opacity=".38" stroke-width=".8" stroke-dasharray="2 5"><circle cx="300" cy="300" r="95"/><circle cx="300" cy="300" r="190"/><path d="M300 14 V586 M14 300 H586"/></g>
+<circle cx="300" cy="300" r="286" fill="none" stroke="#6d6a64" stroke-width="1"/>
+<path d="M294 300 h12 M300 294 v12" stroke="#eceae4" stroke-width="1.2"/>
+<g font-family="Archivo, system-ui, sans-serif" font-size="11" fill="#eceae4" stroke="#0a0a0a" stroke-width="3" paint-order="stroke"><text x="305" y="212">88°S</text><text x="305" y="117">86°S</text><text x="305" y="26">84°S</text></g>
+<path d="M14 22h16 M22 14v16" stroke="#8a8780" stroke-width="1"/>
+<path d="M570 22h16 M578 14v16" stroke="#8a8780" stroke-width="1"/>
+<path d="M14 578h16 M22 570v16" stroke="#8a8780" stroke-width="1"/>
+<path d="M570 578h16 M578 570v16" stroke="#8a8780" stroke-width="1"/>
 </svg>
