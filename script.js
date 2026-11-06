@@ -9,7 +9,7 @@
   "use strict";
 
   // prettier-ignore
-  const EMBEDDED_DATA = /* DATA:BEGIN */{"meta": {"note": "Every value in this file is made up. None of it is a real measurement or price.", "priceUnit": "thousands of US dollars per ton, delivered", "region": "Austral Reach (fictional)"}, "sites": [{"id": "nightglass", "name": "Nightglass Crater", "type": "water", "x": 41.7, "y": 47.5, "blurb": "A deep crater whose floor never gets sunlight. It has the strongest ice signal in the area and is easy to reach from the ridge to the east.", "quantity": "About 120,000 tons of ice", "confidence": 62, "costPerTon": 380, "basis": "Data from orbit and one surface probe", "breakdown": {"extract": 38, "refine": 27, "store": 15, "deliver": 20}}, {"id": "coldwell", "name": "Coldwell Hollow", "type": "water", "x": 64.2, "y": 34.2, "blurb": "A smaller, colder crater. It looks promising from orbit, but nobody has checked on the ground yet.", "quantity": "About 45,000 tons of ice", "confidence": 34, "costPerTon": 520, "basis": "Data from orbit only", "breakdown": {"extract": 44, "refine": 24, "store": 14, "deliver": 18}}, {"id": "lantern", "name": "Lantern Ridge", "type": "oxygen", "x": 58.3, "y": 63.6, "blurb": "The top of this ridge gets sunlight almost all the time, so it's the cheapest place nearby to run power-hungry oxygen plants.", "quantity": "About 300,000 tons of oxygen", "confidence": 81, "costPerTon": 210, "basis": "Data from orbit and two ground samples", "breakdown": {"extract": 30, "refine": 40, "store": 12, "deliver": 18}}, {"id": "basalt", "name": "Basalt Gate", "type": "oxygen", "x": 27.5, "y": 26.0, "blurb": "A dark, flat plain with oxygen-rich soil. It's a longer drive to the nearest landing pad.", "quantity": "About 140,000 tons of oxygen", "confidence": 58, "costPerTon": 260, "basis": "Data from orbit and one ground sample", "breakdown": {"extract": 28, "refine": 36, "store": 11, "deliver": 25}}, {"id": "cinder", "name": "Cinder Plain", "type": "metals", "x": 23.3, "y": 69.0, "blurb": "Dark rock with iron and titanium in it. A possible source of metal, with oxygen as a bonus.", "quantity": "About 60,000 tons of iron", "confidence": 55, "costPerTon": 640, "basis": "Data from orbit, with the grade estimated", "breakdown": {"extract": 34, "refine": 46, "store": 6, "deliver": 14}}, {"id": "pale", "name": "Pale Shelf", "type": "helium3", "x": 78.3, "y": 73.5, "blurb": "A raised shelf with a weak helium-3 signal. There's too little data to put a price on it yet.", "quantity": "Only traces, amount unknown", "confidence": 18, "costPerTon": null, "basis": "A computer model, no measurements", "breakdown": null}], "index": {"periods": ["Y1 Q1", "Y1 Q2", "Y1 Q3", "Y1 Q4", "Y2 Q1", "Y2 Q2", "Y2 Q3", "Y2 Q4"], "series": [{"code": "LOX-A", "name": "Liquid oxygen, Grade A", "values": [520, 505, 498, 470, 455, 448, 430, 439]}, {"code": "H2O-W2", "name": "Water feedstock, Grade W2", "values": [610, 600, 585, 590, 560, 548, 541, 529]}, {"code": "O2-L", "name": "Breathing oxygen, Grade L", "values": [720, 715, 700, 690, 688, 670, 662, 668]}, {"code": "FE-M1", "name": "Iron feedstock, Grade M1", "values": [980, 960, 955, 940, 925, 930, 910, 902]}]}, "grades": [{"code": "LOX-A", "product": "Liquid oxygen", "spec": "Pure enough for rocket engines", "buyer": "Lander companies"}, {"code": "LOX-B", "product": "Liquid oxygen", "spec": "Good enough for power and testing", "buyer": "Power and testing"}, {"code": "O2-L", "product": "Gaseous oxygen", "spec": "Safe to breathe", "buyer": "Moon bases"}, {"code": "H2O-W1", "product": "Water", "spec": "Drinkable after treatment", "buyer": "Bases and research stations"}, {"code": "H2O-W2", "product": "Water", "spec": "Raw, for splitting into fuel", "buyer": "Fuel makers"}, {"code": "FE-M1", "product": "Iron feedstock", "spec": "Iron, sorted by size", "buyer": "Building and manufacturing"}]}/* DATA:END */;
+  const EMBEDDED_DATA = /* DATA:BEGIN */{"meta": {"note": "Every value in this file is made up. None of it is a real measurement or price.", "priceUnit": "thousands of US dollars per ton, delivered", "region": "Austral Reach (fictional)"}, "sites": [{"id": "nightglass", "name": "Nightglass Crater", "type": "water", "x": 41.7, "y": 47.5, "blurb": "A deep crater whose floor never gets sunlight. It has the strongest ice signal in the area and is easy to reach from the ridge to the east.", "quantity": "About 120,000 tons of ice", "confidence": 62, "costPerTon": 380, "basis": "Data from orbit and one surface probe", "breakdown": {"extract": 38, "refine": 27, "store": 15, "deliver": 20}}, {"id": "coldwell", "name": "Coldwell Hollow", "type": "water", "x": 64.2, "y": 34.2, "blurb": "A smaller, colder crater. It looks promising from orbit, but nobody has checked on the ground yet.", "quantity": "About 45,000 tons of ice", "confidence": 34, "costPerTon": 520, "basis": "Data from orbit only", "breakdown": {"extract": 44, "refine": 24, "store": 14, "deliver": 18}}, {"id": "lantern", "name": "Lantern Ridge", "type": "oxygen", "x": 58.3, "y": 63.6, "blurb": "The top of this ridge gets sunlight almost all the time, so it's the cheapest place nearby to run power-hungry oxygen plants.", "quantity": "About 300,000 tons of oxygen", "confidence": 81, "costPerTon": 210, "basis": "Data from orbit and two ground samples", "breakdown": {"extract": 30, "refine": 40, "store": 12, "deliver": 18}}, {"id": "basalt", "name": "Basalt Gate", "type": "oxygen", "x": 27.5, "y": 26.0, "blurb": "A dark, flat plain with oxygen-rich soil. It's a longer drive to the nearest landing pad.", "quantity": "About 140,000 tons of oxygen", "confidence": 58, "costPerTon": 260, "basis": "Data from orbit and one ground sample", "breakdown": {"extract": 28, "refine": 36, "store": 11, "deliver": 25}}, {"id": "cinder", "name": "Cinder Plain", "type": "metals", "x": 23.3, "y": 69.0, "blurb": "Dark rock with iron and titanium in it. A possible source of metal, with oxygen as a bonus.", "quantity": "About 60,000 tons of iron", "confidence": 55, "costPerTon": 640, "basis": "Data from orbit, with the grade estimated", "breakdown": {"extract": 34, "refine": 46, "store": 6, "deliver": 14}}, {"id": "pale", "name": "Pale Shelf", "type": "helium3", "x": 78.3, "y": 73.5, "blurb": "A raised shelf with a weak helium-3 signal. There's too little data to put a price on it yet.", "quantity": "Only traces, amount unknown", "confidence": 18, "costPerTon": null, "basis": "A computer model, no measurements", "breakdown": null}], "index": {"periods": ["Y1 Q1", "Y1 Q2", "Y1 Q3", "Y1 Q4", "Y2 Q1", "Y2 Q2", "Y2 Q3", "Y2 Q4"], "series": [{"code": "LOX-A", "name": "Rocket-grade liquid oxygen", "values": [520, 505, 498, 470, 455, 448, 430, 439]}, {"code": "H2O-W2", "name": "Raw water", "values": [610, 600, 585, 590, 560, 548, 541, 529]}, {"code": "O2-L", "name": "Breathing oxygen", "values": [720, 715, 700, 690, 688, 670, 662, 668]}, {"code": "FE-M1", "name": "Iron", "values": [980, 960, 955, 940, 925, 930, 910, 902]}]}, "grades": [{"code": "LOX-A", "name": "Rocket-grade liquid oxygen", "spec": "Pure enough for rocket engines", "buyer": "Lander companies"}, {"code": "LOX-B", "name": "Standard liquid oxygen", "spec": "Good enough for power and testing", "buyer": "Power and testing"}, {"code": "O2-L", "name": "Breathing oxygen", "spec": "Safe to breathe", "buyer": "Moon bases"}, {"code": "H2O-W1", "name": "Drinking water", "spec": "Drinkable after treatment", "buyer": "Bases and research stations"}, {"code": "H2O-W2", "name": "Raw water", "spec": "Raw, for splitting into fuel", "buyer": "Fuel makers"}, {"code": "FE-M1", "name": "Iron", "spec": "Sorted by size, ready for building", "buyer": "Building and manufacturing"}]}/* DATA:END */;
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -126,7 +126,7 @@
     const items = [];
     data.index.series.forEach((s) => {
       const pct = pctChange(s.values);
-      items.push({ code: s.code, price: fmtPrice(s.values[s.values.length - 1]) + "/t", chg: fmtChange(pct), up: pct >= 0 });
+      items.push({ code: s.name, price: fmtPrice(s.values[s.values.length - 1]) + "/t", chg: fmtChange(pct), up: pct >= 0 });
     });
     data.sites.filter((s) => s.costPerTon != null).forEach((s) => {
       items.push({ code: s.name, price: TYPE_LABELS[s.type].toLowerCase() + " " + fmtPrice(s.costPerTon) + "/t", chg: "", up: true });
@@ -230,7 +230,7 @@
   function renderChart(data) {
     const { periods, series } = data.index;
     const NS = "http://www.w3.org/2000/svg";
-    const PL = 46, PR = 66, PT = 12, PB = 30;
+    const PL = 46, PT = 12, PB = 30;
     const all = series.flatMap((s) => s.values);
     const step = 100;
     const yMin = Math.floor(Math.min(...all) / step) * step;
@@ -257,6 +257,9 @@
       const W = Math.max(320, Math.round(chartBox.clientWidth || 720));
       const H = W < 560 ? 240 : 300;
       const labelEvery = W < 560 ? 2 : 1;
+      // Line-end name labels need room; on narrow screens the buttons above name the lines.
+      const showEndLabels = W >= 640;
+      const PR = showEndLabels ? 190 : 14;
       const x = (i) => PL + (i * (W - PL - PR)) / (periods.length - 1);
       const y = (v) => PT + ((yMax - v) * (H - PT - PB)) / (yMax - yMin);
 
@@ -264,7 +267,7 @@
       const title = svgEl("title", { id: "chart-title" });
       title.textContent = "Example Ledger prices by grade";
       const desc = svgEl("desc", { id: "chart-desc" });
-      desc.textContent = series.map((s) => `${s.code} from ${fmtPrice(s.values[0])} to ${fmtPrice(s.values[s.values.length - 1])}`).join("; ") +
+      desc.textContent = series.map((s) => `${s.name} from ${fmtPrice(s.values[0])} to ${fmtPrice(s.values[s.values.length - 1])}`).join("; ") +
         `, over ${periods.length} made-up quarters. All the numbers are in the Index table tab.`;
       svg.append(title, desc);
 
@@ -289,8 +292,9 @@
         const last = s.values.length - 1;
         const dot = svgEl("circle", { class: "end-dot", cx: x(last), cy: y(s.values[last]), r: 3.5, style: `fill:${st.color}` });
         const label = svgEl("text", { class: "end-label", x: x(last) + 9, y: y(s.values[last]) + 4, style: `fill:${st.color}` });
-        label.textContent = s.code;
-        g.append(path, dot, label);
+        label.textContent = s.name;
+        g.append(path, dot);
+        if (showEndLabels) g.append(label);
         svg.append(g);
         return { code: s.code, path, dot, label, color: st.color, g };
       });
@@ -321,9 +325,9 @@
       const ln = svgEl("line", { x1: 1, x2: 21, y1: 4, y2: 4, "stroke-width": 2, "stroke-dasharray": st.dash, style: `stroke:${st.color}` });
       swatch.append(ln);
       const btn = el("button", { type: "button", class: "series-btn", "data-code": s.code, "aria-pressed": "false",
-        "aria-label": `${s.code}, ${s.name}, latest ${fmtPrice(s.values[s.values.length - 1])}, ${fmtChange(pctChange(s.values))} on prior quarter` }, [
+        "aria-label": `${s.name}, latest ${fmtPrice(s.values[s.values.length - 1])}, ${fmtChange(pctChange(s.values))} on prior quarter` }, [
         swatch,
-        el("span", { text: s.code }),
+        el("span", { text: s.name }),
         el("span", { class: "chg", text: fmtChange(pctChange(s.values)) }),
       ]);
       btn.addEventListener("click", () => setActive(s.code));
@@ -346,10 +350,10 @@
     const { periods, series } = data.index;
     const table = $("#index-table");
     const cap = el("caption", { class: "visually-hidden", text: "Example Ledger prices, in " + data.meta.priceUnit });
-    const head = el("tr", {}, [el("th", { scope: "col", text: "Grade" })]
+    const head = el("tr", {}, [el("th", { scope: "col", text: "Product" })]
       .concat(periods.map((p) => el("th", { scope: "col", class: "num-cell", text: p })))
       .concat(el("th", { scope: "col", class: "num-cell", text: "Q/Q" })));
-    const body = series.map((s) => el("tr", {}, [el("th", { scope: "row" }, el("span", { class: "grade-code", text: s.code }))]
+    const body = series.map((s) => el("tr", {}, [el("th", { scope: "row", text: s.name })]
       .concat(s.values.map((v, i) => el("td", { class: "num-cell" + (i === s.values.length - 1 ? " latest" : ""), text: fmtPrice(v) })))
       .concat(el("td", { class: "num-cell", text: fmtChange(pctChange(s.values)) }))));
     table.append(cap, el("thead", {}, head), el("tbody", {}, body));
@@ -359,11 +363,10 @@
     const latest = Object.fromEntries(data.index.series.map((s) => [s.code, s.values[s.values.length - 1]]));
     const table = $("#grades-table");
     const cap = el("caption", { class: "visually-hidden", text: "Example quality grades" });
-    const head = el("tr", {}, ["Grade", "Product", "Specification", "Typical buyer"].map((h) => el("th", { scope: "col", text: h }))
-      .concat(el("th", { scope: "col", class: "num-cell", text: "Index (latest)" })));
+    const head = el("tr", {}, ["Product", "What it is", "Who buys it"].map((h) => el("th", { scope: "col", text: h }))
+      .concat(el("th", { scope: "col", class: "num-cell", text: "Latest price" })));
     const body = data.grades.map((g) => el("tr", {}, [
-      el("th", { scope: "row" }, el("span", { class: "grade-code", text: g.code })),
-      el("td", { text: g.product }),
+      el("th", { scope: "row", text: g.name }),
       el("td", { text: g.spec }),
       el("td", { text: g.buyer }),
       el("td", { class: "num-cell", text: latest[g.code] ? fmtPrice(latest[g.code]) : "—" }),

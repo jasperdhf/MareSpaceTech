@@ -123,7 +123,7 @@
     "series": [
       {
         "code": "LOX-A",
-        "name": "Liquid oxygen, Grade A",
+        "name": "Rocket-grade liquid oxygen",
         "values": [
           520,
           505,
@@ -137,7 +137,7 @@
       },
       {
         "code": "H2O-W2",
-        "name": "Water feedstock, Grade W2",
+        "name": "Raw water",
         "values": [
           610,
           600,
@@ -151,7 +151,7 @@
       },
       {
         "code": "O2-L",
-        "name": "Breathing oxygen, Grade L",
+        "name": "Breathing oxygen",
         "values": [
           720,
           715,
@@ -165,7 +165,7 @@
       },
       {
         "code": "FE-M1",
-        "name": "Iron feedstock, Grade M1",
+        "name": "Iron",
         "values": [
           980,
           960,
@@ -182,38 +182,38 @@
   "grades": [
     {
       "code": "LOX-A",
-      "product": "Liquid oxygen",
+      "name": "Rocket-grade liquid oxygen",
       "spec": "Pure enough for rocket engines",
       "buyer": "Lander companies"
     },
     {
       "code": "LOX-B",
-      "product": "Liquid oxygen",
+      "name": "Standard liquid oxygen",
       "spec": "Good enough for power and testing",
       "buyer": "Power and testing"
     },
     {
       "code": "O2-L",
-      "product": "Gaseous oxygen",
+      "name": "Breathing oxygen",
       "spec": "Safe to breathe",
       "buyer": "Moon bases"
     },
     {
       "code": "H2O-W1",
-      "product": "Water",
+      "name": "Drinking water",
       "spec": "Drinkable after treatment",
       "buyer": "Bases and research stations"
     },
     {
       "code": "H2O-W2",
-      "product": "Water",
+      "name": "Raw water",
       "spec": "Raw, for splitting into fuel",
       "buyer": "Fuel makers"
     },
     {
       "code": "FE-M1",
-      "product": "Iron feedstock",
-      "spec": "Iron, sorted by size",
+      "name": "Iron",
+      "spec": "Sorted by size, ready for building",
       "buyer": "Building and manufacturing"
     }
   ]

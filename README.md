@@ -83,8 +83,8 @@ Everything data-driven (the ticker, map markers and panel, chart, index table, a
 | Key | What it controls |
 | --- | --- |
 | `sites[]` | Map markers and the detail panel. `x` and `y` are percentages across and down `atlas-map.svg`. `type` is `water`, `oxygen`, `metals`, or `helium3`, which sets the marker shape and filter. `confidence` is 0–100 (≥70 High, ≥45 Medium, else Low). `costPerTon` is in USD thousands, or `null` for "Not yet priced". `breakdown` holds percentages for extract/refine/store/deliver, or `null`. |
-| `index.periods` / `index.series[]` | Chart x-axis labels and one line per grade. The ticker and the change figure use the last two values. |
-| `grades[]` | Rows in the Quality grades tab. A grade whose `code` matches a series shows its latest index value. |
+| `index.periods` / `index.series[]` | Chart x-axis labels and one line per product. `name` is shown on the chart, ticker, and tables; `code` is an internal id. The ticker and the change figure use the last two values. |
+| `grades[]` | Rows in the Quality grades tab. `name` is what visitors see; `code` is an internal id (a grade whose `code` matches a series shows its latest price). |
 | `meta.priceUnit` | Unit line under the chart and in the table caption. |
 
 **Opening from disk vs. serving over HTTP.** Browsers block `fetch()` for pages opened directly from disk (`file://`). So `script.js` carries an embedded copy of the JSON between `/* DATA:BEGIN */` and `/* DATA:END */`, and uses it when the fetch fails. When the site is served over HTTP, including on GitHub Pages, the JSON file is used directly.
