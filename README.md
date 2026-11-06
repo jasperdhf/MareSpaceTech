@@ -19,7 +19,7 @@ python3 -m http.server 8000
 
 Two things load from the internet:
 - **Fonts:** Spectral and Archivo, from Google Fonts. Offline, system fonts are used instead.
-- **Three.js r128,** from cdnjs, which renders the 3D Moon. Offline, or without WebGL, the hero shows a static Moon illustration instead.
+- **Three.js r128,** from cdnjs, which renders the 3D Moon and the 3D atlas. Offline, or without WebGL, the page shows the flat Moon illustration and the flat map instead.
 
 ## Structure
 
@@ -30,6 +30,7 @@ mare/
 ├── script.js            Nav, scroll-spy, ticker, atlas map, chart, tabs
 │                        (+ an embedded copy of the data, see below)
 ├── moon3d.js            The 3D Moon in the hero (Three.js)
+├── atlas3d.js           The 3D relief model in the resource atlas (Three.js)
 ├── data/
 │   └── resources.json   All illustrative data: map sites, price index, grades
 ├── README.md
@@ -43,9 +44,9 @@ mare/
 
 ## Sections
 
-1. **Hero:** a 3D Moon you can turn, with the pitch and links to the atlas and the price index
+1. **Hero:** a 3D Moon you can spin, with the pitch and links to the atlas and the price index. Clicking the Moon jumps to the atlas.
 2. **Problem:** why lunar resources can't be financed until they're measured and priced
-3. **Resource atlas:** clickable map sites showing resource, quantity, confidence, cost per ton and a cost breakdown, with resource filters
+3. **Resource atlas:** a 3D model of the made-up Austral Reach. Click a site to see what's there, how sure the estimate is, the cost per ton and a cost breakdown. Filter sites by resource.
 4. **Price index:** tabs for a price chart (select a grade to highlight it), an index table, and the quality grades
 5. **How a trade works:** List reserves → Verify with Survey → Price with Ledger → Match on Exchange → Settle and track with Steward
 6. **Products:** the four products
@@ -54,16 +55,26 @@ mare/
 9. **Roadmap:** Atlas beta → First price index published → First forward contract matched → Steward pilot
 10. **Footer:** "Mare is a fictional company created as a design concept. All data shown is illustrative."
 
-A price ticker runs under the header. It's labeled *Illustrative prices*, has a Pause button, pauses on hover and focus, and stays still under `prefers-reduced-motion`.
+A price ticker runs under the header. It's labeled *Example prices*, has a Pause button, pauses on hover and focus, and stays still under `prefers-reduced-motion`.
 
 ## The 3D Moon
 
 `moon3d.js` generates the Moon's surface in the browser. It builds a colour map (regolith, darker basalt plains, craters, ray systems, and blue survey circles around shadowed south-polar craters) and a matching bump map. Because the bump map carries the crater relief, the crater shading moves correctly as the Moon turns. Lighting is a low sun from the left plus a faint blue fill for earthshine on the night side.
 
 - **Turning it:** drag it with a mouse or finger, or select it with Tab and use the arrow keys. On touch screens, a vertical swipe still scrolls the page.
+- **Clicking it:** a click (not a drag), or Enter while it's selected, scrolls to the resource atlas.
 - **Motion:** when idle, it turns slowly. That stops for people who prefer reduced motion.
 - **Performance:** it only renders while it's on screen.
 - **Look:** to change it, edit `buildTextures()`, the `sun` light, or the starting `yaw`/`pitch` in `moon3d.js`.
+
+## The 3D atlas
+
+`atlas3d.js` turns the flat map into a 3D model of the Austral Reach. Its height map matches the flat map: deep bowls at Nightglass Crater and Coldwell Hollow, a raised Lantern Ridge, lower dark plains, and a higher shelf. Heights are stretched so they're easy to see. A low sun casts real shadows, so the crater floors stay dark.
+
+- **Markers:** the site markers are still the HTML buttons from `script.js`. `atlas3d.js` just moves them every frame to follow the terrain, so clicking, filtering, keyboard and screen-reader access all work as before.
+- **Turning it:** drag it, or select it and use the arrow keys.
+- **Performance:** like the hero Moon, it only renders while it's on screen and turns slowly when idle (not under reduced motion).
+- **Moving a site:** if you move a site in `data/resources.json`, its marker moves on both the flat map and the 3D model. The terrain features themselves are set in `atlas3d.js` (`BIG`, `FIXED`, `RIDGE`).
 
 ## Editing the data
 
