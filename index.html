@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mare — the resource exchange for the Moon</title>
+  <meta name="description" content="Mare (a fictional design concept) maps lunar resources, tracks what they cost to extract and deliver, and runs the marketplace where they're traded. All data is illustrative.">
+  <meta name="theme-color" content="#0e1114">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="starfield" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Mare, back to top">
+        <img src="assets/logo.svg" alt="" width="30" height="30">
+        <span>Mare</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+        <span class="nav-toggle-bars" aria-hidden="true"></span>
+        <span class="visually-hidden">Menu</span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="#atlas">Atlas</a></li>
+          <li><a href="#index">Index</a></li>
+          <li><a href="#exchange">Exchange</a></li>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#audience">Who it's for</a></li>
+          <li><a href="#principles">Principles</a></li>
+          <li><a href="#roadmap">Roadmap</a></li>
+          <li><a class="btn btn-accent btn-sm" href="#waitlist">Join waitlist</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Ticker (filled from data by script.js) -->
+  <div class="ticker" role="region" aria-label="Illustrative price ticker">
+    <span class="ticker-flag">Illustrative</span>
+    <div class="ticker-viewport">
+      <ul class="ticker-track" id="ticker-track"></ul>
+    </div>
+    <button type="button" class="ticker-toggle" id="ticker-toggle" aria-pressed="false">
+      <span class="ticker-toggle-icon" aria-hidden="true"></span><span class="ticker-toggle-text">Pause</span>
+    </button>
+  </div>
+
+  <main id="main">
+    <!-- 1. Hero -->
+    <section id="top" class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Mare <span class="pronounce">/MAH-ray/</span> · The resource exchange for the Moon</p>
+          <h1 id="hero-title">Know what's there. Know what it costs. Trade it.</h1>
+          <p class="lede">Mare maps lunar resources, tracks what it costs to extract and deliver them, and runs the marketplace where producers, buyers, and financiers trade them.</p>
+          <div class="cta-row">
+            <a class="btn btn-outline" href="#atlas">Explore the atlas</a>
+            <a class="btn btn-accent" href="#waitlist">Join the exchange waitlist</a>
+          </div>
+        </div>
+        <figure class="hero-art reveal">
+          <img src="assets/hero.svg" width="640" height="520"
+               alt="Stylized top-down view of the lunar south pole with survey rings and marked resource sites, beside a small card showing an illustrative LOX Grade A price line.">
+        </figure>
+      </div>
+    </section>
+
+    <!-- 2. Problem -->
+    <section id="problem" class="section" aria-labelledby="problem-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">The problem</p>
+          <h2 id="problem-title">You can't finance, insure, or trade what you can't measure or price.</h2>
+          <p>Water ice, oxygen, and metals on the Moon could supply missions that today carry everything from Earth. But capital doesn't move on estimates nobody can compare. Before anyone lends against a lunar operation, insures a delivery, or signs a supply deal, three things have to exist.</p>
+        </header>
+        <ol class="problem-grid">
+          <li class="card reveal">
+            <span class="num" aria-hidden="true">01</span>
+            <h3>A shared measurement</h3>
+            <p>Resource estimates sit in scattered studies and private datasets, in different units, with confidence rarely stated. Two parties can't agree on what a site holds.</p>
+          </li>
+          <li class="card reveal">
+            <span class="num" aria-hidden="true">02</span>
+            <h3>A reference price</h3>
+            <p>Without a cost basis for extracting and delivering a ton, every contract starts from zero and no position can be valued against anything.</p>
+          </li>
+          <li class="card reveal">
+            <span class="num" aria-hidden="true">03</span>
+            <h3>A place to trade</h3>
+            <p>Without standard grades and contract terms, producers can't pre-sell output and buyers can't secure supply. Risk stays where it starts.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 3. Atlas -->
+    <section id="atlas" class="section section-alt" aria-labelledby="atlas-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Mare Survey · Demo</p>
+          <h2 id="atlas-title">Explore the atlas.</h2>
+          <p>A fictional south-polar region, the Austral Reach. Select a site to see what Survey estimates is there, how confident the estimate is, and what Ledger expects a delivered ton to cost.</p>
+        </header>
+
+        <div class="atlas reveal">
+          <div class="atlas-toolbar">
+            <div class="chips" role="group" aria-label="Filter sites by resource">
+              <button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
+              <button type="button" class="chip" data-filter="water" aria-pressed="false"><span class="shape shape-water" aria-hidden="true"></span>Water ice</button>
+              <button type="button" class="chip" data-filter="oxygen" aria-pressed="false"><span class="shape shape-oxygen" aria-hidden="true"></span>Oxygen</button>
+              <button type="button" class="chip" data-filter="metals" aria-pressed="false"><span class="shape shape-metals" aria-hidden="true"></span>Metals</button>
+              <button type="button" class="chip" data-filter="helium3" aria-pressed="false"><span class="shape shape-helium3" aria-hidden="true"></span>Helium-3</button>
+            </div>
+            <span class="data-flag">Illustrative data</span>
+          </div>
+
+          <div class="atlas-body">
+            <div class="map-wrap">
+              <img class="map-img" src="assets/atlas-map.svg" width="600" height="600"
+                   alt="Stylized polar map of the fictional Austral Reach, centered on the south pole, with latitude rings at 84, 86 and 88 degrees south, two large shadowed craters, a sunlit ridge, basalt plains and a highland shelf.">
+              <ul class="map-sites" id="map-sites" aria-label="Survey sites"></ul>
+              <noscript><p class="noscript">Turn on JavaScript to select sites on the map.</p></noscript>
+            </div>
+
+            <aside class="site-panel card" id="site-panel" aria-labelledby="panel-name">
+              <div aria-live="polite">
+                <p class="panel-kicker" id="panel-type">Austral Reach</p>
+                <h3 id="panel-name">Select a site</h3>
+                <p class="panel-blurb" id="panel-blurb">Choose a marker on the map to see its survey estimate and Ledger cost.</p>
+              </div>
+              <dl class="panel-stats" id="panel-stats" hidden>
+                <div><dt>Estimated quantity</dt><dd class="mono" id="panel-qty"></dd></div>
+                <div>
+                  <dt>Confidence</dt>
+                  <dd><span class="mono" id="panel-conf"></span>
+                    <span class="conf-bar" aria-hidden="true"><span id="panel-conf-fill"></span></span>
+                  </dd>
+                </div>
+                <div><dt>Est. cost per ton, delivered to pad</dt><dd class="mono panel-cost" id="panel-cost"></dd></div>
+                <div><dt>Data basis</dt><dd id="panel-basis"></dd></div>
+              </dl>
+              <div class="breakdown" id="panel-breakdown" hidden>
+                <p class="breakdown-title">Ledger cost breakdown</p>
+                <div class="breakdown-bar" id="breakdown-bar" aria-hidden="true"></div>
+                <ul class="breakdown-legend mono" id="breakdown-legend"></ul>
+              </div>
+              <p class="panel-flag">Illustrative data</p>
+            </aside>
+          </div>
+          <p class="fine-note"><strong>Illustrative data.</strong> The Austral Reach, its site names, and every quantity, confidence level, and cost shown are invented for this concept. None of it is a real measurement.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Price index dashboard -->
+    <section id="index" class="section" aria-labelledby="index-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Mare Ledger · Demo</p>
+          <h2 id="index-title">A price index for things nobody has sold yet.</h2>
+          <p>Ledger publishes a reference price for each standard grade, built from cost estimates and revised as missions report real numbers. Here are eight invented quarters of it.</p>
+        </header>
+
+        <div class="dashboard card reveal">
+          <div class="dash-head">
+            <div class="tabs" role="tablist" aria-label="Ledger views">
+              <button type="button" role="tab" id="tab-chart" aria-controls="panel-chart" aria-selected="true">Price trends</button>
+              <button type="button" role="tab" id="tab-table" aria-controls="panel-table" aria-selected="false" tabindex="-1">Index table</button>
+              <button type="button" role="tab" id="tab-grades" aria-controls="panel-grades" aria-selected="false" tabindex="-1">Quality grades</button>
+            </div>
+            <span class="data-flag">Illustrative data</span>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="panel-chart" aria-labelledby="tab-chart" tabindex="0">
+            <div class="series-picker" role="group" aria-label="Highlight a series" id="series-picker"></div>
+            <div class="chart" id="chart"></div>
+            <p class="chart-unit mono" id="chart-unit"></p>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="panel-table" aria-labelledby="tab-table" tabindex="0" hidden>
+            <div class="table-wrap" role="region" aria-label="Index values by quarter" tabindex="0">
+              <table class="data-table" id="index-table"></table>
+            </div>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="panel-grades" aria-labelledby="tab-grades" tabindex="0" hidden>
+            <div class="table-wrap" role="region" aria-label="Quality grades" tabindex="0">
+              <table class="data-table grades-table" id="grades-table"></table>
+            </div>
+            <p class="fine-note">Grade codes and specifications are illustrative, not a real industry standard.</p>
+          </div>
+        </div>
+        <p class="fine-note reveal"><strong>Illustrative data.</strong> Periods are fictional (Y1–Y2). Prices are invented and are not quotes, forecasts, or offers.</p>
+      </div>
+    </section>
+
+    <!-- 5. How the exchange works -->
+    <section id="exchange" class="section section-alt" aria-labelledby="exchange-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">How the exchange works</p>
+          <h2 id="exchange-title">From a claim to a contract.</h2>
+          <p>Every trade on Mare Exchange runs through the same five steps, and each step leaves a record the other parties can check.</p>
+        </header>
+        <ol class="flow">
+          <li class="flow-step reveal">
+            <span class="num" aria-hidden="true">01</span>
+            <p class="flow-owner">Producer</p>
+            <h3>List reserves</h3>
+            <p>A producer lists a site and the volume, grade, and delivery window it intends to supply.</p>
+          </li>
+          <li class="flow-step reveal">
+            <span class="num" aria-hidden="true">02</span>
+            <p class="flow-owner">Mare Survey</p>
+            <h3>Verify with Survey data</h3>
+            <p>The listing is checked against the atlas. Its confidence level is attached to the offer.</p>
+          </li>
+          <li class="flow-step reveal">
+            <span class="num" aria-hidden="true">03</span>
+            <p class="flow-owner">Mare Ledger</p>
+            <h3>Price with Ledger</h3>
+            <p>The offer is referenced to the Ledger index for that grade, so both sides start from the same number.</p>
+          </li>
+          <li class="flow-step reveal">
+            <span class="num" aria-hidden="true">04</span>
+            <p class="flow-owner">Mare Exchange</p>
+            <h3>Match on Exchange</h3>
+            <p>A buyer commits to a forward contract or supply agreement on standard terms.</p>
+          </li>
+          <li class="flow-step reveal">
+            <span class="num" aria-hidden="true">05</span>
+            <p class="flow-owner">Mare Steward</p>
+            <h3>Settle and track</h3>
+            <p>Extraction and delivery are tracked against the contract, and delivery is certified to grade.</p>
+          </li>
+        </ol>
+        <p class="fine-note reveal">Mare Exchange is a design concept. Nothing on this site is an offer of, or invitation to buy, any financial product.</p>
+      </div>
+    </section>
+
+    <!-- 6. Products -->
+    <section id="products" class="section" aria-labelledby="products-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Products</p>
+          <h2 id="products-title">Mare doesn't mine.</h2>
+          <p>It's the neutral information and market layer a lunar economy needs before it can be financed: a geological survey, a commodities price index, and an exchange in one place, with a fourth product to keep it accountable.</p>
+        </header>
+        <div class="product-grid">
+          <article class="card product reveal">
+            <img src="assets/icon-survey.svg" alt="" width="44" height="44">
+            <h3>Mare Survey</h3>
+            <p class="product-sub">Resource atlas</p>
+            <p>Where water ice, oxygen-bearing regolith, metals, and helium-3 are estimated to be, each with a stated confidence level and the data behind it.</p>
+          </article>
+          <article class="card product reveal">
+            <img src="assets/icon-ledger.svg" alt="" width="44" height="44">
+            <h3>Mare Ledger</h3>
+            <p class="product-sub">Cost and price index</p>
+            <p>Estimated cost per ton to extract, refine, store, and deliver each resource at each site, updated as missions report data.</p>
+          </article>
+          <article class="card product reveal">
+            <img src="assets/icon-exchange.svg" alt="" width="44" height="44">
+            <h3>Mare Exchange</h3>
+            <p class="product-sub">Marketplace</p>
+            <p>Forward contracts and supply agreements between producers and buyers, settled against standardized quality grades such as LOX Grade A.</p>
+          </article>
+          <article class="card product reveal">
+            <img src="assets/icon-steward.svg" alt="" width="44" height="44">
+            <h3>Mare Steward</h3>
+            <p class="product-sub">Resource management</p>
+            <p>Site allocation, extraction tracking, and reporting for operators and agencies, so resources are used sustainably and claims don't conflict.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Audience -->
+    <section id="audience" class="section section-alt" aria-labelledby="audience-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Who it's for</p>
+          <h2 id="audience-title">Three sides of one market.</h2>
+        </header>
+        <div class="audience-grid">
+          <article class="card reveal">
+            <p class="num" aria-hidden="true">A</p>
+            <h3>Producers</h3>
+            <p class="audience-lede">Prove your reserves and lock in buyers before you launch.</p>
+            <ul class="tick-list">
+              <li>Publish survey-backed reserve estimates</li>
+              <li>Pre-sell output as forward contracts</li>
+              <li>Show partners contracted demand, not projections</li>
+            </ul>
+          </article>
+          <article class="card reveal">
+            <p class="num" aria-hidden="true">B</p>
+            <h3>Buyers</h3>
+            <p class="audience-lede">Secure propellant and supplies at a known price.</p>
+            <ul class="tick-list">
+              <li>Lander, habitat, and research operators</li>
+              <li>Compare sites on delivered cost</li>
+              <li>Buy to a grade, with delivery certified</li>
+            </ul>
+          </article>
+          <article class="card reveal">
+            <p class="num" aria-hidden="true">C</p>
+            <h3>Financiers &amp; insurers</h3>
+            <p class="audience-lede">Standardized data to underwrite and lend against lunar contracts.</p>
+            <ul class="tick-list">
+              <li>Confidence-rated resource estimates</li>
+              <li>An independent cost and price reference</li>
+              <li>Contract performance tracked by Steward</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Principles -->
+    <section id="principles" class="section" aria-labelledby="principles-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Principles</p>
+          <h2 id="principles-title">A market is only as good as its record.</h2>
+        </header>
+        <dl class="principles">
+          <div class="principle reveal">
+            <dt><span class="num" aria-hidden="true">01</span>Transparency</dt>
+            <dd>Methods, inputs, and every revision are published. An estimate without its error bar isn't an estimate.</dd>
+          </div>
+          <div class="principle reveal">
+            <dt><span class="num" aria-hidden="true">02</span>Neutrality</dt>
+            <dd>Mare doesn't mine, refine, or trade for its own account. It has no position in the prices it publishes.</dd>
+          </div>
+          <div class="principle reveal">
+            <dt><span class="num" aria-hidden="true">03</span>Sustainable use</dt>
+            <dd>Extraction is allocated, tracked, and reported, so a finite resource isn't claimed twice or used carelessly.</dd>
+          </div>
+          <div class="principle reveal">
+            <dt><span class="num" aria-hidden="true">04</span>Interoperability</dt>
+            <dd>Open data formats, shared units, and standard grades, so any operator's systems can read the same record.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- 9. Roadmap -->
+    <section id="roadmap" class="section section-alt" aria-labelledby="roadmap-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">Roadmap</p>
+          <h2 id="roadmap-title">Data first. Then the market.</h2>
+          <p>Planned phases for this concept. Phases, not promises.</p>
+        </header>
+        <ol class="timeline">
+          <li class="timeline-item is-done reveal">
+            <p class="timeline-phase">Phase 0 · Complete</p>
+            <h3>Atlas beta</h3>
+            <p>Survey data model and confidence scoring, with a first atlas of one south-polar region.</p>
+          </li>
+          <li class="timeline-item is-active reveal">
+            <p class="timeline-phase">Phase 1 · In progress</p>
+            <h3>First price index published</h3>
+            <p>Ledger reference prices for the first grades, released openly with methodology and revision history.</p>
+          </li>
+          <li class="timeline-item reveal">
+            <p class="timeline-phase">Phase 2</p>
+            <h3>First forward contract matched</h3>
+            <p>A producer and a buyer from the waitlist agree a forward contract on standard terms.</p>
+          </li>
+          <li class="timeline-item reveal">
+            <p class="timeline-phase">Phase 3</p>
+            <h3>Steward pilot</h3>
+            <p>Site allocation and extraction tracking run with a first group of operators.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 10. Waitlist -->
+    <section id="waitlist" class="section" aria-labelledby="waitlist-title">
+      <div class="container contact-grid">
+        <header class="section-head reveal">
+          <p class="eyebrow">Exchange waitlist</p>
+          <h2 id="waitlist-title">Get early access.</h2>
+          <p>Join as a producer, buyer, financier, or operator. This is a design concept, so the form doesn't send anything; it only shows how the flow would work.</p>
+        </header>
+        <form class="contact-form card reveal" id="waitlist-form" novalidate>
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required aria-describedby="name-err">
+            <p class="field-error" id="name-err" aria-live="polite"></p>
+          </div>
+          <div class="field">
+            <label for="email">Work email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-err">
+            <p class="field-error" id="email-err" aria-live="polite"></p>
+          </div>
+          <div class="field">
+            <label for="org">Organization <span class="optional">(optional)</span></label>
+            <input id="org" name="org" type="text" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="role">I'm joining as</label>
+            <select id="role" name="role">
+              <option>A producer</option>
+              <option>A buyer</option>
+              <option>A financier or insurer</option>
+              <option>An agency or operator</option>
+              <option>A researcher</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="field field-full">
+            <label for="message">What would you track or trade? <span class="optional">(optional)</span></label>
+            <textarea id="message" name="message" rows="4" placeholder="Resources, sites, volumes, timelines…"></textarea>
+          </div>
+          <button class="btn btn-accent field-full" type="submit">Join the waitlist</button>
+          <div class="form-success" id="form-success" role="status" tabindex="-1" hidden>
+            <h3>You're on the list.</h3>
+            <p>In a real deployment you'd receive a confirmation email. Nothing was sent; this form is front-end only.</p>
+            <button type="button" class="btn btn-outline btn-sm" id="form-reset">Back to form</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- 11. Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="assets/logo.svg" alt="" width="26" height="26">
+        <span>Mare</span>
+        <span class="footer-tag">The resource exchange for the Moon</span>
+      </div>
+      <nav aria-label="Footer">
+        <ul class="footer-links">
+          <li><a href="#atlas">Atlas</a></li>
+          <li><a href="#index">Index</a></li>
+          <li><a href="#exchange">Exchange</a></li>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#principles">Principles</a></li>
+          <li><a href="#waitlist">Waitlist</a></li>
+        </ul>
+      </nav>
+      <p class="disclaimer">Mare is a fictional company created as a design concept. All data shown is illustrative.</p>
+      <p class="fineprint">Names, places, prices, grades, and milestones are invented. No affiliation with, or endorsement by, any real company, agency, or person is claimed or implied. Nothing here is financial advice or an offer of any financial product.</p>
+    </div>
+  </footer>
+</body>
+</html>

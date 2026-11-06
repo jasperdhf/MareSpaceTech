@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "note": "Every value in this file is fictional and illustrative. None of it is a real measurement or price.",
+    "priceUnit": "USD thousands per metric ton, delivered to pad",
+    "region": "Austral Reach (fictional)"
+  },
+  "sites": [
+    {
+      "id": "nightglass", "name": "Nightglass Crater", "type": "water", "x": 41.7, "y": 47.5,
+      "blurb": "Permanently shadowed floor in a deep crater. The richest ice signal in the region, with good access from the eastern ridge.",
+      "quantity": "~120 kt water ice", "confidence": 62, "costPerTon": 380,
+      "basis": "Orbital neutron and radar data, one surface probe",
+      "breakdown": { "extract": 38, "refine": 27, "store": 15, "deliver": 20 }
+    },
+    {
+      "id": "coldwell", "name": "Coldwell Hollow", "type": "water", "x": 64.2, "y": 34.2,
+      "blurb": "Smaller, colder crater. Promising orbital signal, but no surface confirmation yet.",
+      "quantity": "~45 kt water ice", "confidence": 34, "costPerTon": 520,
+      "basis": "Orbital data only",
+      "breakdown": { "extract": 44, "refine": 24, "store": 14, "deliver": 18 }
+    },
+    {
+      "id": "lantern", "name": "Lantern Ridge", "type": "oxygen", "x": 58.3, "y": 63.6,
+      "blurb": "Near-continuous sunlight along the crest makes it the cheapest place in the region to run power-hungry oxygen extraction.",
+      "quantity": "~300 kt extractable oxygen", "confidence": 81, "costPerTon": 210,
+      "basis": "Orbital spectra, two surface samples",
+      "breakdown": { "extract": 30, "refine": 40, "store": 12, "deliver": 18 }
+    },
+    {
+      "id": "basalt", "name": "Basalt Gate", "type": "oxygen", "x": 27.5, "y": 26.0,
+      "blurb": "Dark basalt plain with oxide-rich regolith. Longer haul to the nearest pad.",
+      "quantity": "~140 kt extractable oxygen", "confidence": 58, "costPerTon": 260,
+      "basis": "Orbital spectra, one surface sample",
+      "breakdown": { "extract": 28, "refine": 36, "store": 11, "deliver": 25 }
+    },
+    {
+      "id": "cinder", "name": "Cinder Plain", "type": "metals", "x": 23.3, "y": 69.0,
+      "blurb": "Ilmenite-bearing basalt. A candidate source of iron and titanium feedstock, with oxygen as a by-product.",
+      "quantity": "~60 kt recoverable iron", "confidence": 55, "costPerTon": 640,
+      "basis": "Orbital spectra, model-derived grade",
+      "breakdown": { "extract": 34, "refine": 46, "store": 6, "deliver": 14 }
+    },
+    {
+      "id": "pale", "name": "Pale Shelf", "type": "helium3", "x": 78.3, "y": 73.5,
+      "blurb": "Highland shelf with a weak helium-3 signal. Concentrations are low and poorly constrained; too uncertain for a Ledger cost.",
+      "quantity": "Trace; not yet bounded", "confidence": 18, "costPerTon": null,
+      "basis": "Model estimate, no direct measurement",
+      "breakdown": null
+    }
+  ],
+  "index": {
+    "periods": ["Y1 Q1", "Y1 Q2", "Y1 Q3", "Y1 Q4", "Y2 Q1", "Y2 Q2", "Y2 Q3", "Y2 Q4"],
+    "series": [
+      { "code": "LOX-A",  "name": "Liquid oxygen, Grade A",   "values": [520, 505, 498, 470, 455, 448, 430, 439] },
+      { "code": "H2O-W2", "name": "Water feedstock, Grade W2", "values": [610, 600, 585, 590, 560, 548, 541, 529] },
+      { "code": "O2-L",   "name": "Breathing oxygen, Grade L", "values": [720, 715, 700, 690, 688, 670, 662, 668] },
+      { "code": "FE-M1",  "name": "Iron feedstock, Grade M1",  "values": [980, 960, 955, 940, 925, 930, 910, 902] }
+    ]
+  },
+  "grades": [
+    { "code": "LOX-A",  "product": "Liquid oxygen",   "spec": "Flight-grade purity, low moisture",       "buyer": "Lander operators" },
+    { "code": "LOX-B",  "product": "Liquid oxygen",   "spec": "Industrial purity, non-flight",           "buyer": "Surface power, testing" },
+    { "code": "O2-L",   "product": "Gaseous oxygen",  "spec": "Breathing-grade, life-support certified", "buyer": "Habitat operators" },
+    { "code": "H2O-W1", "product": "Water",           "spec": "Filtered, potable after treatment",       "buyer": "Habitats, research stations" },
+    { "code": "H2O-W2", "product": "Water",           "spec": "Raw feedstock for electrolysis",          "buyer": "Refiners" },
+    { "code": "FE-M1",  "product": "Iron feedstock",  "spec": "Reduced metal, size-sorted",              "buyer": "Fabrication and construction" }
+  ]
+}
