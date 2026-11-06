@@ -25,12 +25,13 @@ Two things load from the internet:
 
 ```
 mare/
-├── index.html           Single-page markup (10 sections)
+├── index.html           Single-page markup (8 sections)
 ├── styles.css           Palette tokens, components, breakpoints, reduced-motion rules
 ├── script.js            Nav, scroll-spy, ticker, atlas map, chart, tabs
 │                        (+ an embedded copy of the data, see below)
+├── moon-surface.js      Generates the Moon's surface texture (shared by both 3D views)
 ├── moon3d.js            The 3D Moon in the hero (Three.js)
-├── atlas3d.js           The 3D relief model in the resource atlas (Three.js)
+├── atlas3d.js           The 3D Moon globe in the resource atlas (Three.js)
 ├── data/
 │   └── resources.json   All illustrative data: map sites, price index, grades
 ├── README.md
@@ -46,14 +47,12 @@ mare/
 
 1. **Hero:** a 3D Moon you can spin, with the pitch and links to the atlas and the price index. Clicking the Moon jumps to the atlas.
 2. **Problem:** why lunar resources can't be financed until they're measured and priced
-3. **Resource atlas:** a 3D model of the made-up Austral Reach. Click a site to see what's there, how sure the estimate is, the cost per ton and a cost breakdown. Filter sites by resource.
+3. **Resource atlas:** a 3D Moon you can spin, with the made-up Austral Reach at the south pole. Click a site to see what's there, how sure the estimate is, the cost per ton and a cost breakdown. Filter sites by resource.
 4. **Price index:** tabs for a price chart (select a grade to highlight it), an index table, and the quality grades
 5. **How a trade works:** List reserves → Verify with Survey → Price with Ledger → Match on Exchange → Settle and track with Steward
 6. **Products:** the four products
 7. **Who it's for:** producers, buyers, financiers and insurers
-8. **Principles:** transparency, neutrality, sustainable use, interoperability
-9. **Roadmap:** Atlas beta → First price index published → First forward contract matched → Steward pilot
-10. **Footer:** "Mare is a fictional company created as a design concept. All data shown is illustrative."
+8. **Footer:** "Mare is a fictional company created as a design concept. All data shown is illustrative."
 
 A price ticker runs under the header. It's labeled *Example prices*, has a Pause button, pauses on hover and focus, and stays still under `prefers-reduced-motion`.
 
@@ -69,12 +68,12 @@ A price ticker runs under the header. It's labeled *Example prices*, has a Pause
 
 ## The 3D atlas
 
-`atlas3d.js` turns the flat map into a 3D model of the Austral Reach. Its height map matches the flat map: deep bowls at Nightglass Crater and Coldwell Hollow, a raised Lantern Ridge, lower dark plains, and a higher shelf. Heights are stretched so they're easy to see. A low sun casts real shadows, so the crater floors stay dark.
+`atlas3d.js` shows a full Moon you can spin, with the made-up Austral Reach at the south pole. At true scale the region would be a tiny speck, so it's stretched over the bottom 50° of the globe (`CAP`), and its heights are exaggerated (`K`). The relief matches the flat map: deep bowls at Nightglass Crater and Coldwell Hollow, with floors that stay dark, a raised Lantern Ridge, lower dark plains and a higher shelf. A low sun from the side casts real shadows. The rest of the globe uses the same surface as the hero Moon (`moon-surface.js`).
 
-- **Markers:** the site markers are still the HTML buttons from `script.js`. `atlas3d.js` just moves them every frame to follow the terrain, so clicking, filtering, keyboard and screen-reader access all work as before.
+- **Markers:** the site markers are still the HTML buttons from `script.js`. `atlas3d.js` moves them every frame to follow the globe and hides the ones that turn to the far side. Clicking, filtering, keyboard and screen-reader access all work as before.
 - **Turning it:** drag it, or select it and use the arrow keys.
 - **Performance:** like the hero Moon, it only renders while it's on screen and turns slowly when idle (not under reduced motion).
-- **Moving a site:** if you move a site in `data/resources.json`, its marker moves on both the flat map and the 3D model. The terrain features themselves are set in `atlas3d.js` (`BIG`, `FIXED`, `RIDGE`).
+- **Moving a site:** if you move a site in `data/resources.json`, its marker moves on both the flat map and the globe. The terrain features themselves are set in `atlas3d.js` (`BIG`, `FIXED`, `RIDGE`).
 
 ## Editing the data
 
@@ -97,10 +96,10 @@ python3 -c "import json,re;d=json.dumps(json.load(open('data/resources.json')));
 
 ## Design notes
 
-- **Concept:** the page is the Moon. A navy night sky holds the hero Moon. Light regolith gray is the reading surface, and the data instruments (atlas and price index) and the principles sit on blue-slate basalt plains with soft, irregular edges. The footer is an earthrise over the horizon.
+- **Concept:** the page is the Moon. A navy night sky holds the hero Moon. Light regolith gray is the reading surface, and the atlas and price index sit on a blue-slate basalt plain with soft, irregular edges. The footer is an earthrise over the horizon.
 - **Colour:** Earth blue is the only accent, used for data and actions, because from the Moon, Earth is the only colour in the sky. The palette is defined as custom properties at the top of `styles.css`.
 - **Type:** Spectral, a serif, for headings and text. Archivo, in condensed widths, for interface text and numbers.
-- **Not colour alone:** resource types on the map are told apart by marker shape (circle, square, diamond, triangle). Chart lines differ by dash pattern and carry direct labels. The roadmap shows progress as Moon phases, with the status also written out.
+- **Not colour alone:** resource types on the map are told apart by marker shape (circle, square, diamond, triangle). Chart lines differ by dash pattern and carry direct labels.
 - **Keyboard:** map sites, filters and the Moon are all keyboard-operable. The dashboard follows the WAI-ARIA tabs pattern (Left/Right/Home/End). The mobile menu closes with Esc. Focus rings are always visible.
 - **Screen readers:** the Moon and every map site have text labels, and the site panel announces changes politely. The chart has a text summary, with the full values in the Index table tab.
 - **Motion:** the Moon rises once on load and turns slowly when idle; the ticker scrolls. All of it is off under `prefers-reduced-motion: reduce`.

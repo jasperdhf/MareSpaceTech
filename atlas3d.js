@@ -1,62 +1,75 @@
-/* Mare — the resource atlas as a 3D relief model.
+/* Mare — the resource atlas as a 3D globe.
  *
- * Builds a height field of the fictional Austral Reach that matches the flat map
- * (assets/atlas-map.svg): deep bowls at Nightglass Crater and Coldwell Hollow, a
- * raised Lantern Ridge, lower basalt plains, a higher highland shelf. A low polar
- * sun casts real shadows, so the crater floors stay dark.
+ * A full Moon you can spin, with the fictional Austral Reach at the south pole.
+ * At true scale the region would be a speck, so it's stretched over the bottom
+ * CAP degrees of the sphere. Its relief matches the flat map (assets/atlas-map.svg):
+ * deep bowls at Nightglass Crater and Coldwell Hollow, a raised Lantern Ridge,
+ * lower dark plains and a higher shelf. A low sun casts real shadows.
  *
- * The site markers are still the HTML buttons that script.js creates; this file
- * only moves them each frame to follow the terrain, so clicking, filters, keyboard
- * and screen-reader access keep working. If Three.js or WebGL is unavailable, the
- * flat map stays.
+ * The rest of the surface comes from moon-surface.js. The site markers are still
+ * the HTML buttons that script.js creates; this file moves them every frame to
+ * follow the globe and hides the ones on the far side, so clicking, filters,
+ * keyboard and screen-reader access keep working. If Three.js or WebGL is
+ * unavailable, the flat map stays.
  *
- * Coordinates: everything is described in the flat map's 600 × 600 pixel space,
- * the same space as data/resources.json (x and y as percentages of it).
+ * Coordinates: the region is described in the flat map's 600 × 600 pixel space,
+ * the same space as data/resources.json (site x and y are percentages of it).
  */
 (function () {
   "use strict";
 
   const wrap = document.querySelector(".map-wrap");
   const flatMap = wrap && wrap.querySelector(".map-img");
-  if (!wrap || !window.THREE) return;
+  if (!wrap || !window.THREE || !window.MareSurface) return;
   const probe = document.createElement("canvas");
   if (!(probe.getContext("webgl") || probe.getContext("experimental-webgl"))) return;
 
   const THREE = window.THREE;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Map pixel space → model units. The disc of the map (radius 286px) becomes radius 1.
-  const C = 300, R = 286;
-  const toUnit = (px) => (px - C) / R;
+  /* ---------- Map space <-> sphere ---------- */
+  const C = 300, R = 286;     // centre and radius of the region on the flat map, in px
+  const CAP = 50;             // degrees from the south pole the region is stretched over
+  const K = 0.75;             // height exaggeration on the globe
+  const DEG = Math.PI / 180;
 
-  /* ---------- Terrain height field ---------- */
+  // Sphere convention matches THREE.SphereGeometry: theta from +y (north), phi around.
+  function unitFromAngles(theta, phi) {
+    return new THREE.Vector3(-Math.cos(phi) * Math.sin(theta), Math.cos(theta), Math.sin(phi) * Math.sin(theta));
+  }
+  // Flat-map pixel -> (theta, phi) on the sphere.
+  function mapToAngles(px, py) {
+    const dx = px - C, dy = py - C;
+    const latDeg = -90 + (Math.hypot(dx, dy) / R) * CAP;
+    let phi = Math.atan2(dx, -dy);
+    if (phi < 0) phi += Math.PI * 2;
+    return { theta: (90 - latDeg) * DEG, phi };
+  }
+  // (theta, phi) -> flat-map pixel, or null outside the region.
+  function anglesToMap(theta, phi) {
+    const fromPole = 180 - theta / DEG;           // degrees from the south pole
+    if (fromPole > CAP) return null;
+    const r = (fromPole / CAP) * R;
+    return [C + r * Math.sin(phi), C - r * Math.cos(phi)];
+  }
+
+  /* ---------- Region height field (flat-map pixel space) ---------- */
   let seed = 21;
   const rand = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
-
-  // Smooth value noise for gentle undulation.
-  const LAT = 64, grid = [];
+  const LAT = 48, grid = [];
   for (let i = 0; i < (LAT + 1) * (LAT + 1); i++) grid.push(rand());
   const smooth = (t) => t * t * (3 - 2 * t);
-  function valueNoise(x, y) { // x, y in 0..LAT
-    const xi = Math.min(Math.floor(x), LAT - 1), yi = Math.min(Math.floor(y), LAT - 1);
-    const xf = smooth(x - xi), yf = smooth(y - yi);
+  function valueNoise(x, y) {
+    const xi = Math.max(0, Math.min(Math.floor(x), LAT - 1)), yi = Math.max(0, Math.min(Math.floor(y), LAT - 1));
+    const xf = smooth(Math.min(1, Math.max(0, x - xi))), yf = smooth(Math.min(1, Math.max(0, y - yi)));
     const g = (a, b) => grid[b * (LAT + 1) + a];
-    const top = g(xi, yi) * (1 - xf) + g(xi + 1, yi) * xf;
-    const bot = g(xi, yi + 1) * (1 - xf) + g(xi + 1, yi + 1) * xf;
-    return top * (1 - yf) + bot * yf;
+    return (g(xi, yi) * (1 - xf) + g(xi + 1, yi) * xf) * (1 - yf) + (g(xi, yi + 1) * (1 - xf) + g(xi + 1, yi + 1) * xf) * yf;
   }
 
   // Craters in map pixels: [x, y, radius]. The first two have permanently shadowed floors.
   const BIG = [[250, 285, 62], [385, 205, 40]];
   const FIXED = [[470, 300, 18], [200, 470, 14], [330, 500, 22], [480, 140, 12], [90, 270, 16], [300, 90, 20]];
-  const SMALL = [];
-  while (SMALL.length < 170) {
-    const a = rand() * Math.PI * 2, d = Math.sqrt(rand()) * 270;
-    const x = C + Math.cos(a) * d, y = C + Math.sin(a) * d, r = 2.5 + 10 * Math.pow(rand(), 2.2);
-    if (BIG.concat(FIXED).some(([bx, by, br]) => Math.hypot(x - bx, y - by) < br + r + 3)) continue;
-    SMALL.push([x, y, r]);
-  }
-  const CRATERS = BIG.concat(FIXED, SMALL);
+  const CRATERS = BIG.concat(FIXED);
   const RIDGE = [[266, 400], [306, 384], [344, 382], [384, 388], [416, 372]];
 
   function distToSegment(px, py, ax, ay, bx, by) {
@@ -65,21 +78,16 @@
     return Math.hypot(px - (ax + t * dx), py - (ay + t * dy));
   }
 
-  // Height in model units at map pixel (px, py). Vertical scale is exaggerated.
   function height(px, py) {
-    let h = 0.0045 * (valueNoise((px / 600) * LAT, (py / 600) * LAT) - 0.5)
-          + 0.012 * (valueNoise((px / 600) * LAT * 0.18 + 7, (py / 600) * LAT * 0.18 + 3) - 0.5);
-    // basalt plains sit lower, the highland shelf higher
-    h -= 0.018 * Math.exp(-(((px - 155) / 70) ** 2 + ((py - 150) / 48) ** 2));
-    h -= 0.018 * Math.exp(-(((px - 140) / 80) ** 2 + ((py - 420) / 58) ** 2));
-    h += 0.03 * Math.exp(-(((px - 470) / 70) ** 2 + ((py - 445) / 52) ** 2));
-    // Lantern Ridge
+    let h = 0.012 * (valueNoise((px / 600) * LAT * 0.2 + 7, (py / 600) * LAT * 0.2 + 3) - 0.5);
+    h -= 0.018 * Math.exp(-(((px - 155) / 70) ** 2 + ((py - 150) / 48) ** 2));   // Basalt Gate plain
+    h -= 0.018 * Math.exp(-(((px - 140) / 80) ** 2 + ((py - 420) / 58) ** 2));   // Cinder Plain
+    h += 0.03 * Math.exp(-(((px - 470) / 70) ** 2 + ((py - 445) / 52) ** 2));    // Pale Shelf
     let dRidge = Infinity;
     for (let i = 0; i < RIDGE.length - 1; i++) {
       dRidge = Math.min(dRidge, distToSegment(px, py, RIDGE[i][0], RIDGE[i][1], RIDGE[i + 1][0], RIDGE[i + 1][1]));
     }
-    h += 0.05 * Math.exp(-((dRidge / 11) ** 2));
-    // craters: a bowl below the surface and a raised rim around it
+    h += 0.05 * Math.exp(-((dRidge / 11) ** 2));                                    // Lantern Ridge
     for (const [cx, cy, r] of CRATERS) {
       const dx = px - cx, dy = py - cy;
       if (Math.abs(dx) > r * 1.6 || Math.abs(dy) > r * 1.6) continue;
@@ -88,53 +96,141 @@
       if (d < 1) h += depth * (d * d - 1);
       h += 0.32 * depth * Math.exp(-(((d - 1) / 0.22) ** 2));
     }
-    // ease to flat at the rim of the disc
-    const rr = Math.hypot(px - C, py - C) / R;
-    if (rr > 0.94) h *= Math.max(0, 1 - (rr - 0.94) / 0.06);
+    const rr = Math.hypot(px - C, py - C) / R;                                       // blend into the globe
+    if (rr > 0.9) h *= Math.max(0, 1 - (rr - 0.9) / 0.1);
     return h;
   }
+  const radiusAt = (px, py) => 1 + height(px, py) * K;
 
-  /* ---------- Surface colour ---------- */
-  function buildTexture() {
-    const S = 1024, cv = document.createElement("canvas");
-    cv.width = cv.height = S;
-    const ctx = cv.getContext("2d");
-    const toCanvas = (px) => ((px - C) / R + 1) * (S / 2);
-    const k = S / 2 / R; // canvas px per map px
+  /* ---------- Textures ---------- */
+  function buildTextures() {
+    const { color, bump, W, H } = window.MareSurface.build({ surveyRings: false, seed: 11 });
 
-    ctx.save();
-    ctx.beginPath(); ctx.arc(S / 2, S / 2, S / 2, 0, Math.PI * 2); ctx.clip();
-    ctx.fillStyle = "#8f8c86"; ctx.fillRect(0, 0, S, S);
-    [[24, 0.26], [96, 0.16], [384, 0.12]].forEach(([n, a]) => {
-      const small = document.createElement("canvas");
-      small.width = small.height = n;
-      const sctx = small.getContext("2d"), img = sctx.createImageData(n, n);
-      for (let p = 0; p < img.data.length; p += 4) {
-        const v = Math.floor(rand() * 255);
-        img.data[p] = img.data[p + 1] = img.data[p + 2] = v; img.data[p + 3] = 255;
-      }
-      sctx.putImageData(img, 0, 0);
-      ctx.globalAlpha = a; ctx.imageSmoothingEnabled = true;
-      ctx.drawImage(small, 0, 0, S, S);
-    });
-    ctx.globalAlpha = 1;
-    const soft = (x, y, rx, ry, color) => {
-      ctx.save(); ctx.translate(toCanvas(x), toCanvas(y)); ctx.scale(rx * k, ry * k);
-      const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
-      g.addColorStop(0, color); g.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, 1, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    // Region overlay drawn in flat-map space, then wrapped onto the polar cap.
+    const S = 1024, k = S / 600;
+    const over = document.createElement("canvas");
+    over.width = over.height = S;
+    const o = over.getContext("2d");
+    const soft = (x, y, rx, ry, col) => {
+      o.save(); o.translate(x * k, y * k); o.scale(rx * k, ry * k);
+      const g = o.createRadialGradient(0, 0, 0, 0, 0, 1);
+      g.addColorStop(0, col); g.addColorStop(1, "rgba(0,0,0,0)");
+      o.fillStyle = g; o.beginPath(); o.arc(0, 0, 1, 0, Math.PI * 2); o.fill(); o.restore();
     };
-    soft(155, 150, 80, 56, "rgba(40,39,36,.6)");
-    soft(140, 420, 90, 66, "rgba(40,39,36,.6)");
-    soft(470, 445, 74, 54, "rgba(235,232,226,.32)");
-    BIG.forEach(([x, y, r]) => soft(x, y, r * 0.85, r * 0.85, "rgba(16,16,16,.8)"));
-    ctx.restore();
+    // regolith grain near the pole, where the shared texture is smoothed
+    const n = 160, tile = document.createElement("canvas");
+    tile.width = tile.height = n;
+    const tctx = tile.getContext("2d"), img = tctx.createImageData(n, n);
+    for (let p = 0; p < img.data.length; p += 4) {
+      const val = 110 + Math.floor(rand() * 70);
+      img.data[p] = img.data[p + 1] = img.data[p + 2] = val; img.data[p + 3] = 255;
+    }
+    tctx.putImageData(img, 0, 0);
+    o.save();
+    o.beginPath(); o.arc(C * k, C * k, R * 0.75 * k, 0, Math.PI * 2); o.clip();
+    o.globalAlpha = 0.85; o.imageSmoothingEnabled = true; o.drawImage(tile, 0, 0, S, S);
+    o.restore();
+    o.globalCompositeOperation = "destination-in";
+    const fade = o.createRadialGradient(C * k, C * k, R * 0.45 * k, C * k, C * k, R * 0.75 * k);
+    fade.addColorStop(0, "rgba(0,0,0,1)"); fade.addColorStop(1, "rgba(0,0,0,0)");
+    o.fillStyle = fade; o.fillRect(0, 0, S, S);
+    o.globalCompositeOperation = "source-over";
+    soft(155, 150, 80, 56, "rgba(40,39,36,.65)");
+    soft(140, 420, 90, 66, "rgba(40,39,36,.65)");
+    soft(470, 445, 74, 54, "rgba(235,232,226,.35)");
+    // permanently shadowed crater floors: solid dark, soft edge
+    BIG.forEach(([x, y, r]) => {
+      const g = o.createRadialGradient(x * k, y * k, 0, x * k, y * k, r * 0.9 * k);
+      g.addColorStop(0, "rgba(10,10,12,.95)"); g.addColorStop(0.7, "rgba(10,10,12,.9)"); g.addColorStop(1, "rgba(10,10,12,0)");
+      o.fillStyle = g; o.beginPath(); o.arc(x * k, y * k, r * 0.9 * k, 0, Math.PI * 2); o.fill();
+    });
 
-    const tex = new THREE.CanvasTexture(cv);
-    tex.encoding = THREE.sRGBEncoding;
-    tex.anisotropy = 4;
-    return tex;
+    // Bump detail for the region, also drawn in flat-map space so it doesn't pinch at
+    // the pole: neutral grey (the relief comes from the geometry) plus small craters.
+    const bOver = document.createElement("canvas");
+    bOver.width = bOver.height = S;
+    const bo = bOver.getContext("2d");
+    bo.fillStyle = "rgb(128,128,128)";
+    bo.beginPath(); bo.arc(C * k, C * k, R * k, 0, Math.PI * 2); bo.fill();
+    let placed = 0;
+    while (placed < 190) {
+      const a = rand() * Math.PI * 2, dist = Math.sqrt(rand()) * R * 0.9;
+      const x = C + Math.cos(a) * dist, y = C + Math.sin(a) * dist, r = 2 + 9 * Math.pow(rand(), 2.4);
+      if (CRATERS.some(([cx, cy, cr]) => Math.hypot(x - cx, y - cy) < cr + r + 2)) continue;
+      const g = bo.createRadialGradient(x * k, y * k, 0, x * k, y * k, r * 1.35 * k);
+      [[0, "rgba(55,55,55,.75)"], [0.55, "rgba(90,90,90,.55)"], [0.78, "rgba(185,185,185,.6)"], [0.92, "rgba(150,150,150,.25)"], [1, "rgba(128,128,128,0)"]]
+        .forEach(([s, c]) => g.addColorStop(s, c));
+      bo.fillStyle = g; bo.beginPath(); bo.arc(x * k, y * k, r * 1.35 * k, 0, Math.PI * 2); bo.fill();
+      placed++;
+    }
+    // fade the overlay out toward the edge of the region so it blends into the globe
+    bo.globalCompositeOperation = "destination-in";
+    const bfade = bo.createRadialGradient(C * k, C * k, R * 0.8 * k, C * k, C * k, R * k);
+    bfade.addColorStop(0, "rgba(0,0,0,1)"); bfade.addColorStop(1, "rgba(0,0,0,0)");
+    bo.fillStyle = bfade; bo.fillRect(0, 0, S, S);
+
+    // Wrap both overlays onto the polar cap of the equirectangular maps.
+    const y0 = Math.floor(((180 - CAP) / 180) * H);
+    function wrapOnto(target, overlay) {
+      const od = overlay.getContext("2d").getImageData(0, 0, S, S).data;
+      const ctx = target.getContext("2d");
+      const region = ctx.getImageData(0, y0, W, H - y0);
+      const d = region.data;
+      for (let row = 0; row < H - y0; row++) {
+        const theta = ((y0 + row + 0.5) / H) * Math.PI;
+        for (let col = 0; col < W; col++) {
+          const m = anglesToMap(theta, ((col + 0.5) / W) * Math.PI * 2);
+          if (!m) continue;
+          const sx = Math.min(S - 1, Math.max(0, Math.round(m[0] * k))), sy = Math.min(S - 1, Math.max(0, Math.round(m[1] * k)));
+          const si = (sy * S + sx) * 4, a = od[si + 3] / 255;
+          if (!a) continue;
+          const di = (row * W + col) * 4;
+          d[di] = d[di] * (1 - a) + od[si] * a;
+          d[di + 1] = d[di + 1] * (1 - a) + od[si + 1] * a;
+          d[di + 2] = d[di + 2] * (1 - a) + od[si + 2] * a;
+        }
+      }
+      ctx.putImageData(region, 0, y0);
+    }
+    wrapOnto(color, over);
+    wrapOnto(bump, bOver);
+
+    const map = new THREE.CanvasTexture(color);
+    const bumpMap = new THREE.CanvasTexture(bump);
+    [map, bumpMap].forEach((t) => { t.wrapS = THREE.RepeatWrapping; t.anisotropy = 4; });
+    map.encoding = THREE.sRGBEncoding;
+    return { map, bumpMap };
   }
+
+  /* ---------- Globe geometry: displace the polar cap ---------- */
+  const geo = new THREE.SphereGeometry(1, 384, 192);
+  const pos = geo.attributes.position, uv = geo.attributes.uv;
+  for (let i = 0; i < pos.count; i++) {
+    const theta = (1 - uv.getY(i)) * Math.PI, phi = uv.getX(i) * Math.PI * 2;
+    const m = anglesToMap(theta, phi);
+    if (!m) continue;
+    const r = radiusAt(m[0], m[1]);
+    pos.setXYZ(i, pos.getX(i) * r, pos.getY(i) * r, pos.getZ(i) * r);
+  }
+  geo.computeVertexNormals();
+  // Vertices along the seam and at the poles are duplicated; average their normals.
+  (function weldNormals() {
+    const nrm = geo.attributes.normal, groups = new Map();
+    for (let i = 0; i < pos.count; i++) {
+      const key = `${pos.getX(i).toFixed(4)},${pos.getY(i).toFixed(4)},${pos.getZ(i).toFixed(4)}`;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(i);
+    }
+    const acc = new THREE.Vector3();
+    groups.forEach((ids) => {
+      if (ids.length < 2) return;
+      acc.set(0, 0, 0);
+      ids.forEach((i) => { acc.x += nrm.getX(i); acc.y += nrm.getY(i); acc.z += nrm.getZ(i); });
+      acc.normalize();
+      ids.forEach((i) => nrm.setXYZ(i, acc.x, acc.y, acc.z));
+    });
+    nrm.needsUpdate = true;
+  })();
 
   /* ---------- Scene ---------- */
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -146,116 +242,107 @@
   el.className = "atlas-canvas";
   el.tabIndex = 0;
   el.setAttribute("role", "img");
-  el.setAttribute("aria-label", "3D model of the made-up Austral Reach. Drag or use the arrow keys to spin it. Use the site buttons to see each site's details.");
+  el.setAttribute("aria-label", "3D Moon with the made-up Austral Reach at the south pole. Drag or use the arrow keys to spin it. Use the site buttons to see each site's details.");
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 50);
+  const camera = new THREE.PerspectiveCamera(24, 1, 0.1, 50);
+  camera.position.set(0, 0, 5.3);
 
-  const N = 220;
-  const geo = new THREE.PlaneGeometry(2, 2, N, N);
-  geo.rotateX(-Math.PI / 2);
-  const pos = geo.attributes.position;
-  for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i), z = pos.getZ(i);
-    pos.setY(i, Math.hypot(x, z) <= 1.02 ? height(x * R + C, z * R + C) : 0);
-  }
-  geo.computeVertexNormals();
-  const terrain = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({
-    map: buildTexture(), roughness: 1, metalness: 0, alphaTest: 0.5, transparent: false,
-  }));
-  terrain.castShadow = true;
-  terrain.receiveShadow = true;
-  scene.add(terrain);
+  const { map, bumpMap } = buildTextures();
+  const moon = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ map, bumpMap, bumpScale: 0.016, roughness: 1, metalness: 0 }));
+  moon.castShadow = true;
+  moon.receiveShadow = true;
+  const tilt = new THREE.Group();
+  tilt.add(moon);
+  scene.add(tilt);
 
-  // A dark plinth under the disc, so the cut edge reads as a model on a table.
-  const plinth = new THREE.Mesh(new THREE.CylinderGeometry(1.0, 1.04, 0.06, 128, 1, true),
-    new THREE.MeshStandardMaterial({ color: 0x1a2332, roughness: 1, side: THREE.DoubleSide }));
-  plinth.position.y = -0.03;
-  scene.add(plinth);
-
-  // Latitude rings at 88°, 86° and 84°S, draped over the terrain.
+  // Latitude rings around the region, draped over the relief.
   [95, 190, 284].forEach((rpx) => {
     const pts = [];
     for (let a = 0; a <= 256; a++) {
       const t = (a / 256) * Math.PI * 2;
-      const px = C + Math.cos(t) * rpx, py = C + Math.sin(t) * rpx;
-      pts.push(new THREE.Vector3(toUnit(px), height(px, py) + 0.006, toUnit(py)));
+      const px = C + Math.sin(t) * rpx, py = C - Math.cos(t) * rpx;
+      const { theta, phi } = mapToAngles(px, py);
+      pts.push(unitFromAngles(theta, phi).multiplyScalar(radiusAt(px, py) + 0.004));
     }
     const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),
-      new THREE.LineDashedMaterial({ color: 0xeceae4, dashSize: 0.012, gapSize: 0.028, transparent: true, opacity: 0.45 }));
+      new THREE.LineDashedMaterial({ color: 0xeceae4, dashSize: 0.012, gapSize: 0.028, transparent: true, opacity: 0.5 }));
     line.computeLineDistances();
-    scene.add(line);
+    moon.add(line);
   });
 
-  // Low polar sun: long shadows, crater floors that never see light. Faint blue fill.
-  const sun = new THREE.DirectionalLight(0xfffaf0, 2.1);
-  sun.position.set(-2.9, 0.62, 0.3);
+  // Low sun from the side: long shadows across the polar region. Faint blue earthshine.
+  const sun = new THREE.DirectionalLight(0xfffaf0, 2.2);
+  sun.position.set(-3.4, 0.55, 1.25);
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048);
-  Object.assign(sun.shadow.camera, { left: -1.4, right: 1.4, top: 1.4, bottom: -1.4, near: 0.1, far: 8 });
-  sun.shadow.bias = -0.0004;
-  sun.shadow.normalBias = 0.015;
+  Object.assign(sun.shadow.camera, { left: -1.2, right: 1.2, top: 1.2, bottom: -1.2, near: 0.5, far: 10 });
+  sun.shadow.bias = -0.0005;
+  sun.shadow.normalBias = 0.012;
   scene.add(sun);
-  scene.add(new THREE.HemisphereLight(0x9db3dc, 0x15181d, 0.32));
+  scene.add(new THREE.HemisphereLight(0x9db3dc, 0x15181d, 0.16));
 
   /* ---------- Site markers (the HTML buttons from script.js) ---------- */
   let markers = [];
-  const stemMat = new THREE.LineBasicMaterial({ color: 0xf3f1ec, transparent: true, opacity: 0.75 });
+  const stemMat = new THREE.LineBasicMaterial({ color: 0xf3f1ec, transparent: true, opacity: 0.8 });
   function attachSites(data) {
     if (markers.length || !data || !data.sites) return;
     const list = wrap.querySelector(".map-sites");
     markers = data.sites.map((s) => {
       const px = (s.x / 100) * 600, py = (s.y / 100) * 600;
-      const base = new THREE.Vector3(toUnit(px), height(px, py), toUnit(py));
-      const top = base.clone().add(new THREE.Vector3(0, 0.085, 0));
-      scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([base, top]), stemMat));
-      return { button: list.querySelector(`[data-site="${s.id}"]`), top };
+      const { theta, phi } = mapToAngles(px, py);
+      const normal = unitFromAngles(theta, phi);
+      const base = normal.clone().multiplyScalar(radiusAt(px, py));
+      const top = normal.clone().multiplyScalar(radiusAt(px, py) + 0.07);
+      moon.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([base, top]), stemMat));
+      return { button: list.querySelector(`[data-site="${s.id}"]`), top, normal };
     }).filter((m) => m.button);
     requestFrame();
   }
-  const v = new THREE.Vector3();
+  const v = new THREE.Vector3(), nv = new THREE.Vector3(), toCam = new THREE.Vector3(), q = new THREE.Quaternion();
   function placeMarkers() {
-    markers.forEach(({ button, top }) => {
-      v.copy(top).project(camera);
-      const off = v.z > 1 || Math.abs(v.x) > 1.1 || Math.abs(v.y) > 1.1;
+    moon.updateMatrixWorld();
+    moon.getWorldQuaternion(q);
+    markers.forEach(({ button, top, normal }) => {
+      v.copy(top).applyMatrix4(moon.matrixWorld);
+      nv.copy(normal).applyQuaternion(q);
+      toCam.copy(camera.position).sub(v).normalize();
+      const facing = nv.dot(toCam) > 0.12;
+      v.project(camera);
       button.style.setProperty("--x", ((v.x + 1) / 2) * 100 + "%");
       button.style.setProperty("--y", ((1 - v.y) / 2) * 100 + "%");
-      button.style.visibility = off ? "hidden" : "";
+      button.style.visibility = facing ? "" : "hidden";
     });
   }
 
-  /* ---------- Orbit controls ---------- */
-  let azimuth = 0.35, elevation = 0.95; // radians
-  let vAz = 0, vEl = 0, dragging = false, lastX = 0, lastY = 0, lastInput = 0;
+  /* ---------- Spin controls ---------- */
+  let yaw = 2.2, pitch = -1.3;      // start tipped so the south pole faces you
+  let vYaw = 0, vPitch = 0, dragging = false, lastX = 0, lastY = 0, lastInput = 0;
   const AUTO = reduceMotion ? 0 : 0.0012;
-  const clampEl = (e) => Math.max(0.32, Math.min(1.45, e));
-  function placeCamera() {
-    const d = 4.3;
-    camera.position.set(Math.sin(azimuth) * Math.cos(elevation) * d, Math.sin(elevation) * d, Math.cos(azimuth) * Math.cos(elevation) * d);
-    camera.lookAt(0, -0.02, 0);
-  }
+  const clampPitch = (p) => Math.max(-1.5, Math.min(1.5, p));
 
   el.addEventListener("pointerdown", (e) => {
-    dragging = true; lastX = e.clientX; lastY = e.clientY; vAz = vEl = 0;
+    dragging = true; lastX = e.clientX; lastY = e.clientY; vYaw = vPitch = 0;
     el.setPointerCapture(e.pointerId); el.classList.add("is-dragging");
   });
   el.addEventListener("pointermove", (e) => {
     if (!dragging) return;
-    const k = 3.4 / Math.max(el.clientWidth, 200);
-    vAz = -(e.clientX - lastX) * k; vEl = (e.clientY - lastY) * k;
+    const k = 3.2 / Math.max(el.clientWidth, 200);
+    vYaw = (e.clientX - lastX) * k; vPitch = (e.clientY - lastY) * k;
     lastX = e.clientX; lastY = e.clientY;
-    azimuth += vAz; elevation = clampEl(elevation + vEl);
+    yaw += vYaw; pitch = clampPitch(pitch + vPitch);
     lastInput = performance.now(); requestFrame();
   });
   const endDrag = () => { dragging = false; el.classList.remove("is-dragging"); lastInput = performance.now(); };
   el.addEventListener("pointerup", endDrag);
   el.addEventListener("pointercancel", endDrag);
   el.addEventListener("keydown", (e) => {
-    const moves = { ArrowLeft: [0.16, 0], ArrowRight: [-0.16, 0], ArrowUp: [0, 0.1], ArrowDown: [0, -0.1] };
+    const step = 0.18;
+    const moves = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
     if (!moves[e.key]) return;
     e.preventDefault();
-    azimuth += moves[e.key][0]; elevation = clampEl(elevation + moves[e.key][1]);
-    vAz = vEl = 0; lastInput = performance.now(); requestFrame();
+    yaw += moves[e.key][0]; pitch = clampPitch(pitch + moves[e.key][1]);
+    vYaw = vPitch = 0; lastInput = performance.now(); requestFrame();
   });
 
   /* ---------- Render loop (only while visible) ---------- */
@@ -263,14 +350,15 @@
   function frame(now) {
     raf = 0;
     if (!dragging) {
-      vAz *= 0.93; vEl *= 0.88;
-      azimuth += vAz; elevation = clampEl(elevation + vEl);
-      if (now - lastInput > 3000) azimuth += AUTO;
+      vYaw *= 0.94; vPitch *= 0.9;
+      yaw += vYaw; pitch = clampPitch(pitch + vPitch);
+      if (now - lastInput > 3000) yaw += AUTO;
     }
-    placeCamera();
+    tilt.rotation.x = pitch;
+    moon.rotation.y = yaw;
     renderer.render(scene, camera);
     placeMarkers();
-    const moving = dragging || Math.abs(vAz) > 1e-4 || Math.abs(vEl) > 1e-4 || AUTO > 0;
+    const moving = dragging || Math.abs(vYaw) > 1e-4 || Math.abs(vPitch) > 1e-4 || AUTO > 0;
     if (visible && moving) requestFrame();
   }
   function requestFrame() { if (!raf && visible) raf = requestAnimationFrame(frame); }
@@ -283,12 +371,12 @@
     requestFrame();
   }
 
-  // Swap the flat map for the model.
+  // Swap the flat map for the globe.
   wrap.insertBefore(el, wrap.querySelector(".map-sites"));
   if (flatMap) flatMap.hidden = true;
   wrap.classList.add("is-3d");
   const caption = document.querySelector(".plate-caption");
-  if (caption) caption.textContent = "3D model of the Austral Reach. Heights are stretched so they're easy to see. Drag to spin it. Example data.";
+  if (caption) caption.textContent = "The Moon, with the Austral Reach at the south pole. The region's size and heights are stretched so they're easy to see. Drag to spin it. Example data.";
   resize();
 
   if ("ResizeObserver" in window) new ResizeObserver(resize).observe(wrap);

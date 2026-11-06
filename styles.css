@@ -341,21 +341,7 @@ button, input, select, textarea { font: inherit; }
   border: 1.5px solid var(--dust); box-shadow: inset 1px 1px 0 rgba(0,0,0,.25);
 }
 
-/* ---------- Principles ---------- */
-.principles { display: grid; gap: 2rem 3.5rem; }
-.principles dt { font-size: 1.55rem; font-weight: 300; margin-bottom: .3rem; }
-.principles dd { color: var(--ash-2); max-width: 34em; }
 
-/* ---------- Roadmap phases ---------- */
-.phases { display: grid; gap: 2rem; position: relative; }
-.phase-glyph { width: 34px; height: 34px; margin-bottom: .9rem; }
-.phase-glyph .dark { fill: var(--basalt); }
-.phase-glyph .lit { fill: #f3f1ec; }
-.is-done .phase-glyph .lit { stroke: var(--basalt); stroke-width: 1; }
-.phase-status { font-family: var(--sans); font-size: .88rem; color: var(--ink-2); margin-bottom: .3rem; }
-.is-active .phase-status { color: var(--earth); font-weight: 600; }
-.phases h3 { font-size: 1.25rem; }
-.phases p:last-child { color: var(--ink-2); margin: 0; }
 
 
 /* ---------- Footer: earthrise ---------- */
@@ -383,8 +369,7 @@ button, input, select, textarea { font: inherit; }
    ========================================================================== */
 @media (min-width: 640px) {
   :root { --gutter: 28px; }
-  .products, .principles { grid-template-columns: 1fr 1fr; }
-  .phases { grid-template-columns: 1fr 1fr; }
+  .products { grid-template-columns: 1fr 1fr; }
   .tabs [role="tab"] { padding: .5rem 1rem; }
 }
 
@@ -399,8 +384,6 @@ button, input, select, textarea { font: inherit; }
   .atlas-body { grid-template-columns: minmax(0, 1.25fr) minmax(300px, 1fr); gap: 3rem; align-items: start; }
   .site-panel { border-top: 0; padding-top: 0; border-left: 1px solid rgba(230,227,221,.22); padding-left: 2rem; min-height: 100%; }
   .site-label { display: block; }
-  .phases { grid-template-columns: repeat(4, 1fr); gap: 2.5rem; }
-  .phases::before { content: ""; position: absolute; left: 0; right: 0; top: 17px; height: 1px; background: var(--dust); z-index: -1; }
 }
 
 @media (min-width: 1100px) {
